@@ -1,7 +1,16 @@
-For Each DWR part
+;Interface for choosing drawer accessories 
+;All pricing is in another UCS
+;All changes to drawer box parts are in another UCS
+For Each DWR part 
 
+public debug<int> = 0		; Enable Debug
 
-if :STYPE != 2 then		; bail out if not drawer box opening
+if this._dwr_Accessories_v2 == NULL then
+	_dwr_Accessories_v2<bool> = TRUE 
+	_dwr_Accessories_v2<style> = 2
+	_dwr_Accessories_v2<desc> = 'DO NOT DELETE'
+	
+	delete _dwr_AccSelector
 	delete _dwr_topOrLeft       
 	delete _dwr_bottomOrRight   
 	delete _dwr_drawerDesign    
@@ -23,465 +32,448 @@ if :STYPE != 2 then		; bail out if not drawer box opening
 	delete _dwr_customCost
 	delete _dwr_customDesc
 	
-	;_dwr_AccExists<bool> = FALSE
-	_dwr_code<text> = ''
+	delete _dwr_AccExists
+
+end if
+
+; bail out if not drawer box opening
+if :STYPE != 2 then		
+	delete _dwr_accessoryLayout			
+	delete _dwr_Acc1
+	delete _dwr_Acc2		
+	delete _dwr_Acc3	
+	delete _dwr_Acc4
+	delete _dwr_code
+	delete _dwr_AccessoryCost
 	
-	exit 
+	delete _dwr_Accessory_X
+	delete _dwr_Accessory_A
+	delete _dwr_Accessory_B
+	delete _dwr_Accessory_C
+	delete _dwr_Accessory_D
+	delete _dwr_Accessory_E
+	delete _dwr_Accessory_F
+	delete _dwr_Accessory_G
+	delete _dwr_Accessory_H
+	delete _dwr_Accessory_I
 	
+	delete _dwr_CanisterCount
+
+	exit
 end if              
 
-if :.BF.CONSTID != 23 AND :.BF.CONSTID != 25 then	; bail out if not Gingrich dovetail box
-	delete _dwr_topOrLeft       
-	delete _dwr_bottomOrRight   
-	delete _dwr_drawerDesign    
-	delete _dwr_insertCode_1    
-	delete _dwr_insertCode_2    
-	delete _dwr_insertCode_3    
-	delete _dwr_insertCode_4    
-	delete _dwr_insertCode_5    
-	delete _dwr_insertCode_6    
-	delete _dwr_insertCode_7    
-	delete _dwr_insertCode_8    
-	delete _dwr_insertCode_9    
-	delete _dwr_designCode_1    
-	delete _dwr_designCode_2    
-	delete _dwr_designCode_3    
-	delete _dwr_designCode_4    
+; bail out if not Gingrich dovetail box   
+if :.BF.CONSTID != 23 AND :.BF.CONSTID != 25 then
+	delete _dwr_accessoryLayout			
+	delete _dwr_Acc1
+	delete _dwr_Acc2		
+	delete _dwr_Acc3	
+	delete _dwr_Acc4
 	delete _dwr_code
 	delete _dwr_AccessoryCost
-	delete _dwr_customCost
-	delete _dwr_customDesc
 	
-	;_dwr_AccExists<bool> = FALSE
-	_dwr_code<text> = ''
+	delete _dwr_Accessory_X
+	delete _dwr_Accessory_A
+	delete _dwr_Accessory_B
+	delete _dwr_Accessory_C
+	delete _dwr_Accessory_D
+	delete _dwr_Accessory_E
+	delete _dwr_Accessory_F
+	delete _dwr_Accessory_G
+	delete _dwr_Accessory_H
+	delete _dwr_Accessory_I
 	
-	exit   
-	
+	delete _dwr_CanisterCount
+
+	exit
 end if	
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;  Initial user interface	    ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
 if this._dwr_AccSelector == NULL then
-	_dwr_AccSelector<int> = <lst>'00 None=-1|01 Create code=1|10 Peg Drawer=10|11 Bread Lid=11|50 Custom=50'
+	_dwr_AccSelector<int> = <lst>'00 None=-1|01 Configure=1|02 Fixed Dividers=2|03 Movable Dividers=3|04 Canister Drawer=4|05 Bread Drawer=5|06 File Drawer=6|07 Lateral File Drawer=7|08 Tray Drawer=8'
 end if 
 	_dwr_AccSelector<style> = 1
-	_dwr_AccSelector<desc> = '50 Gingrich Accessory'	
+	_dwr_AccSelector<desc> = '50 Drawer Accessory'	
 	 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;  Test for user selections   ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;	 
 if _dwr_AccSelector == -1 then
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; No accessories
-	delete _dwr_topOrLeft      
-	delete _dwr_bottomOrRight  
-	delete _dwr_drawerDesign   
-	delete _dwr_insertCode_1   
-	delete _dwr_insertCode_2   
-	delete _dwr_insertCode_3   
-	delete _dwr_insertCode_4   
-	delete _dwr_insertCode_5   
-	delete _dwr_insertCode_6   
-	delete _dwr_insertCode_7   
-	delete _dwr_insertCode_8   
-	delete _dwr_insertCode_9   
-	delete _dwr_designCode_1   
-	delete _dwr_designCode_2   
-	delete _dwr_designCode_3   
-	delete _dwr_designCode_4   
+; no accessories
+	delete _dwr_accessoryLayout			
+	delete _dwr_Acc1
+	delete _dwr_Acc2		
+	delete _dwr_Acc3	
+	delete _dwr_Acc4
 	delete _dwr_code
 	delete _dwr_AccessoryCost
-	delete _dwr_customCost
-	delete _dwr_customDesc
-
-	;_dwr_AccExists<bool> = FALSE
-	_dwr_code<text> = ''
 	
+	delete _dwr_Accessory_X
+	delete _dwr_Accessory_A
+	delete _dwr_Accessory_B
+	delete _dwr_Accessory_C
+	delete _dwr_Accessory_D
+	delete _dwr_Accessory_E
+	delete _dwr_Accessory_F
+	delete _dwr_Accessory_G
+	delete _dwr_Accessory_H
+	delete _dwr_Accessory_I
+	
+	delete _dwr_CanisterCount
+
 	exit
-else
+end if
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;  Drawer will get insert(s) based on the 3-digit calculator below  ;;;
+;;;  Drawer will get insert(s) based on the calculator below  ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;_dwr_AccExists<bool> = TRUE
 	
-	if _dwr_AccSelector == 1 then  
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Code-generated accessories	
-		delete _dwr_customCost
-		delete _dwr_customDesc		
-		            
-		_dwr_insertCode_1<text> = 'A'	; Cutlery insert
-		_dwr_insertCode_2<text> = 'B'   ; Cutlery slider
-		_dwr_insertCode_3<text> = 'C'   ; Spice insert
-		_dwr_insertCode_4<text> = 'D'   ; Spice slider
-		_dwr_insertCode_5<text> = 'E'   ; Utility insert
-		_dwr_insertCode_6<text> = 'F'   ; Utility slider
-		_dwr_insertCode_7<text> = 'G'   ; Knife block
-		_dwr_insertCode_8<text> = 'H'   ; Knife block slider
-		_dwr_insertCode_9<text> = 'X'   ; None
-		_dwr_designCode_1<text> = 'A'   ; Full width
-		_dwr_designCode_2<text> = 'B'   ; 2 equal openings
-		_dwr_designCode_3<text> = 'C'   ; 2 unequal, inserts left
-		_dwr_designCode_4<text> = 'C'   ; ; 2 unequal, inserts right
-			            
-		if _dwr_topOrLeft == NULL then
-			_dwr_topOrLeft<int> = <lst>'.X None=9|A Cutlery insert=1|B Cutlery slider=2|C Spice insert=3|D Spice Slider=4|E Utility Insert=5|F Utility Slider=6|H Knife block slider=8'
-		end if
-			_dwr_topOrLeft<style> = 1
-			_dwr_topOrLeft<desc> = '52 Top or left insert'
-			
-		if _dwr_bottomOrRight == NULL then
-			_dwr_bottomOrRight<int> = <lst>'.X None=9|A Cutlery insert=1|B Cutlery slider=2|C Spice insert=3|D Spice Slider=4|E Utility Insert=5|F Utility Slider=6|G Knife block=7|H Knife block slider=8'
-		end if
-			_dwr_bottomOrRight<style> = 1
-			_dwr_bottomOrRight<desc> = '53 Bottom or right insert'	
-			
-		if _dwr_drawerDesign == NULL then
-			_dwr_drawerDesign<int> = <lst>'A Full width=1|B 2 equal openings=2|C 2 unequal, left=3|C 2 unequal, right=4'
-		end if
-			_dwr_drawerDesign<style> = 1
-			_dwr_drawerDesign<desc> = '51 Drawer design'                                   
-			
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;  Generate the 3-letter code that will be copied to the DWR_OPEN to be placed on the order form  ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+if _dwr_AccSelector == 1 then
+    ;base price for smallest accessory
+ 	_dwr_Accessory_X<dec> := 0	; 	none
+	_dwr_Accessory_A<dec> := 49	;	silverware slider
+	_dwr_Accessory_B<dec> := 15	;	silverware dividers
+	_dwr_Accessory_C<dec> := 49	;	utensil slider
+	_dwr_Accessory_D<dec> := 15	;	utensil dividers
+	_dwr_Accessory_E<dec> := 49	;	knife block slider
+	_dwr_Accessory_F<dec> := 86	;	knife block bottom
+	_dwr_Accessory_G<dec> := 39	;	cutting board slider
+	_dwr_Accessory_H<dec> := 42.5	;	spice insert
+	_dwr_Accessory_I<dec> := 75	;	K-Cup slider
+  		
+	_dwr_topAccessories<text> = 'X: None = X|A: Silverware Slider=A|C: Utensil Slider=C|E: Knife Block Slider=E|G: Cutting Bd Slider=G|I: K-Cup Slider=I'
+	_dwr_bottomAccessories<text> = 'X: None = X|B: Silverware Dividers=B|D: Utensil Dividers=D|F: Knife Block Bottom=F|H: Spice Insert=H'
+	
+	if _dwr_accessoryLayout == NULL then
+		_dwr_accessoryLayout<text> = <lst>'A: Full Width=A|B: Equally Divided=B|C: Unequally Divided=C'
+	end if
+		_dwr_accessoryLayout<style> = 1
+		_dwr_accessoryLayout<desc> = '51 Drawer Layout'
+    
+    ;left top
+	if _dwr_Acc1 == NULL then
+		_dwr_Acc1<text> = <lst>'{_dwr_topAccessories}'
+	end if
+		_dwr_Acc1<style> = 1
+		_dwr_Acc1<desc> = '52 Left Top'			
+             
+    ;left bottom         
+	if _dwr_Acc2 == NULL then
+		_dwr_Acc2<text> = <lst>'{_dwr_bottomAccessories}'
+	end if
+		_dwr_Acc2<style> = 1
+		_dwr_Acc2<desc> = '53 Left Bottom'
+    
+    ;right top
+	if _dwr_Acc3 == NULL then
+		_dwr_Acc3<text> = <lst>'{_dwr_topAccessories}'
+	end if
+		_dwr_Acc3<desc> = '54 Right Top'
+	
+	;right bottom	
+	if _dwr_Acc4 == NULL then
+		_dwr_Acc4<text> = <lst>'{_dwr_bottomAccessories}'
+	end if
+		_dwr_Acc4<desc> = '55 Right Bottom'
 
-		_temp1a<text> = '_dwr_insertCode_{_dwr_topOrLeft}'         ;;
-		_temp1b<int> = {_temp1a}                                   ;;  This is Jonah's hack again. This kind of allows a switch statement for text lookup.
-		_temp2a<text> = '_dwr_insertCode_{_dwr_bottomOrRight}'     ;;  Does not work for libpart paths. 
-		_temp2b<int> = {_temp2a}                                   ;;  
-		_temp3a<text> = '_dwr_designCode_{_dwr_drawerDesign}'      ;;
-		_temp3b<int> = {_temp3a}                                   ;;
-		_dwr_code<text> = '{_temp1b}{_temp2b}{_temp3b}'			   ;;
-		; code to pass to the DWR_OPEN^^
-                                                      
-;;;;;;;;;;;;;;;;;;;;;;;;
-;;;  Pricing stuff	 ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;
-        if _dwr_drawerDesign == 1 then 					; Design A - inserts are full width and stacked
-        	_dwr_insertCost_1<int> := 50				; Cutlery insert
-			_dwr_insertCost_2<int> := 100	    		; Cutlery slider
-		else
-			if _dwr_drawerDesign == 2 then 				; Design B - two equal openings, side by side
-        		_dwr_insertCost_1<int> := 110			; Cutlery insert
-				_dwr_insertCost_2<int> := 210	    	; Cutlery slider
-			else
-				if _dwr_drawerDesign == 3 OR _dwr_drawerDesign == 4 then 			; Design C - Unequal openings. Open on one side.         	
-					_dwr_insertCost_1<int> := 60		; Cutlery insert
-					_dwr_insertCost_2<int> := 110	    ; Cutlery slider						
-				end if  ; _dwr_drawerDesign == 3
-			end if  ; _dwr_drawerDesign == 2
-		end if  ; _dwr_drawerDesign == 1	
-				
-		_dwr_insertCost_3<int> := 100    	; Spice insert
-		_dwr_insertCost_4<int> := 150    	; Spice slider
-		_dwr_insertCost_5<int> := 100    	; Utility insert
-		_dwr_insertCost_6<int> := 150   	; Utility slider
-		_dwr_insertCost_7<int> := 120		; Knife block
-		_dwr_insertCost_8<int> := 170    	; Knife block slider
-		_dwr_insertCost_9<int> := 0	    	; None
+	; set the right two accessory codes to 'X' for none when layout is full width. Otherwise, allow user to change them
+	if _dwr_accessoryLayout == 'A' then	
+		_dwr_Acc3<text> = 'X'
+		_dwr_Acc3<style> = 0
 		
-		_dwr_AccessoryCost<int> := _dwr_insertCost_{_dwr_topOrLeft} + _dwr_insertCost_{_dwr_bottomOrRight}
-                                
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;  Dimension out labels for the accessories    ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  
-  		if cab._c_showLabels == TRUE then
-			if _dwr_topOrLeft != 9 then 
-				dim RED2 as new part
-	;				RED2.X = -20
-					RED2.dz = 0.25
-					RED2.Z = 1
-					RED2.EDX = -DX  
-							
-				if _dwr_topOrLeft == 1 then
-					RED2.libpart = 'Parts\UCS\labels\Cutlery insert label'
-					RED2.owner = DWR_OPEN
+		_dwr_Acc4<text> = 'X'
+		_dwr_Acc4<style> = 0
+	else
+		_dwr_Acc3<style> = 1
+		_dwr_Acc4<style> = 1
+	end if	
+
+	; set base cost	
+	_dwr_AccessoryCost<dec> := 0
+	_dwr_AccessoryCost<dec> := _dwr_Accessory_{_dwr_Acc1} + _dwr_Accessory_{_dwr_Acc2} + _dwr_Accessory_{_dwr_Acc3} + _dwr_Accessory_{_dwr_Acc4}
+          
+	; loop through all 4 possible accessories and upcharge for width
+	i<int> := 1          
+    while i <= 4 do       
+    	if _dwr_Acc{i} != 'X' then
+    		if _dwr_Acc{i} != 'H' then
+				if :DX <= 19 then
+					_dwr_AccessoryCost<dec> += 0
 				else
-					if _dwr_topOrLeft == 2 then
-					 	RED2.libpart = 'Parts\UCS\labels\Cutlery slider label'
-					 	RED2.owner = DWR_OPEN
-					else
-						if _dwr_topOrLeft == 3 then
-							RED2.libpart = 'Parts\UCS\labels\Spice insert label'		
-							RED2.owner = DWR_OPEN
+					if _dwr_accessoryLayout == 'A' then
+						; check for width upcharges on full-width layout
+						if :DX <= 25 then
+							if this._dwr_Acc{i} == 'I' then
+								_dwr_AccessoryCost<dec> += 8
+							else	
+								_dwr_AccessoryCost<dec> += 5
+							end if		
 						else
-							if _dwr_topOrLeft== 4 then
-								RED2.libpart = 'Parts\UCS\labels\Spice slider label'
-								RED2.owner = DWR_OPEN
-							else
-								if _dwr_topOrLeft== 5 then
-									RED2.libpart = 'Parts\UCS\labels\Utility insert label'
-									RED2.owner = DWR_OPEN
-								else
-		 							if _dwr_topOrLeft == 6 then	
-										RED2.libpart = 'Parts\UCS\labels\Utility slider label'
-										RED2.owner = DWR_OPEN
-									else
-										if _dwr_topOrLeft == 7 then  
-											RED2.libpart = 'Parts\UCS\labels\Knife block label'
-											RED2.owner = DWR_OPEN
-										else
-											if _dwr_topOrLeft == 8 then
-												RED2.libpart = 'Parts\UCS\labels\Knife block slider label'
-												RED2.owner = DWR_OPEN
-											end if  ; _dwr_topOrLeft == 8							
-										end if  ; _dwr_topOrLeft == 7							
-									end if  ; _dwr_topOrLeft == 6							
-								end if  ; _dwr_topOrLeft == 5							
-							end if  ; _dwr_topOrLeft == 4							
-						end if  ; _dwr_topOrLeft == 3							
-					end if  ; _dwr_topOrLeft == 2							
-				end if  ; _dwr_topOrLeft == 1
-			end if  ; _dwr_topOrLeft != 9
-			
-			
-			if _dwr_bottomOrRight != 9 then 
+							if this._dwr_Acc{i} == 'I' then
+								_dwr_AccessoryCost<dec> += 20
+							else	
+								_dwr_AccessoryCost<dec> += 10
+							end if	
+						end if
+					else
+						_dwr_AccessoryCost<dec> += 0
+						; assumption is that since the drawer is divided it won't get a width upcharge
+					end if
+				end if
+    		else
+    			; Accessory H = spice
+    			if _dwr_accessoryLayout == 'A' then ; check for drawer that is too wide for spice
+	    			if :DX > 25.25 then
+    					_dwr_AccessoryCost<dec> += _dwr_Accessory_H ; add another insert of the box is too wide
+					end if
+    			end if
+    		end if
+    	end if
+    	
+    	i += 1
+    end while    	
+	
+	_dwr_code<text> = '{_dwr_accessoryLayout}-{_dwr_Acc1}{_dwr_Acc2}-{_dwr_Acc3}{_dwr_Acc4}'
+	; code to pass to the DWR_OPEN^^
+                         
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;  Create labels for the accessories
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	if cab._c_showLabels == TRUE then
+		i<int> := 1 
+		while i <= 4 do		
+			if _dwr_Acc{i} != 'X' then
 				dim RED as new part
-	;				RED.X = 20
+	;				RED.X = -20
 					RED.dz = 0.25
 					RED.Z = 1
-					RED.EDX = -DX  
-							
-				if _dwr_bottomOrRight == 1 then
-					RED.libpart = 'Parts\UCS\labels\Cutlery insert label'
-					RED.owner = DWR_OPEN
+					RED.EDX = -DX 
+;					RED.owner = DWR_OPEN				
+				
+				; pick a library part label based on the accessory code
+				if _dwr_Acc{i} ==  'A' then
+					RED.libpart = 'Parts\UCS\labels\SW Slider Label'
+					RED.desc = 'zSilverware Slider'
 				else
-					if _dwr_bottomOrRight == 2 then
-					 	RED.libpart = 'Parts\UCS\labels\Cutlery slider label'
-					 	RED.owner = DWR_OPEN
+					if _dwr_Acc{i} ==  'B' then
+						RED.libpart = 'Parts\UCS\labels\SW Dividers Label'
+						RED.desc = 'zSilverware Dividers'
 					else
-						if _dwr_bottomOrRight == 3 then
-							RED.libpart = 'Parts\UCS\labels\Spice insert label'		
-							RED.owner = DWR_OPEN
+						if _dwr_Acc{i} ==  'C' then
+							RED.libpart = 'Parts\UCS\labels\Utnsl Slider Label'
+							RED.desc = 'zUtensil Slider'
 						else
-							if _dwr_bottomOrRight== 4 then
-								RED.libpart = 'Parts\UCS\labels\Spice slider label'
-								RED.owner = DWR_OPEN
+							if _dwr_Acc{i} ==  'D' then
+								RED.libpart = 'Parts\UCS\labels\Utnsl Dividers Label'
+								RED.desc = 'zUtensil Slider'
 							else
-								if _dwr_bottomOrRight== 5 then
-									RED.libpart = 'Parts\UCS\labels\Utility insert label'
-									RED.owner = DWR_OPEN
+								if _dwr_Acc{i} ==  'E' then
+									RED.libpart = 'Parts\UCS\labels\Knife Block Slider Label'
+									RED.desc = 'zKnife Block Slider'
 								else
-		 							if _dwr_bottomOrRight == 6 then	
-										RED.libpart = 'Parts\UCS\labels\Utility slider label'
-										RED.owner = DWR_OPEN
+									if _dwr_Acc{i} ==  'F' then
+										RED.libpart = 'Parts\UCS\labels\Knife Block Label'
+										RED.desc = 'zKnife Block'
 									else
-										if _dwr_bottomOrRight == 7 then  
-											RED.libpart = 'Parts\UCS\labels\Knife block label'
-											RED.owner = DWR_OPEN
+										if _dwr_Acc{i} ==  'G' then
+											RED.libpart = 'Parts\UCS\labels\Cutting Bd Slider Label'
+											RED.desc = 'Cutting Board Slider'
 										else
-											if _dwr_bottomOrRight == 8 then
-												RED.libpart = 'Parts\UCS\labels\Knife block slider label'
-												RED.owner = DWR_OPEN
-											end if  ; _dwr_topOrLeft == 8							
-										end if  ; _dwr_topOrLeft == 7							
-									end if  ; _dwr_topOrLeft == 6							
-								end if  ; _dwr_topOrLeft == 5							
-							end if  ; _dwr_topOrLeft == 4							
-						end if  ; _dwr_topOrLeft == 3							
-					end if  ; _dwr_topOrLeft == 2							
-				end if  ; _dwr_topOrLeft == 1
-			end if  ; _dwr_topOrLeft != 9								
-									
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;;  Horizontal and vertical placement of the labels											    ;;;
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-			
-			if _dwr_topOrLeft != 9 then
-				if _dwr_drawerDesign == 1 then  ; design is full width
-					; center-justify left/top insert.
-					; stick top insert to top of center of DWR
-					RED2.X = :DX/2 - DX/2
-					RED2.Y = :DY*0.9 - DY
-				
+											if _dwr_Acc{i} ==  'H' then
+												RED.libpart = 'Parts\UCS\labels\Spice Insert Label'
+												RED.desc = 'zSpice Insert'
+											else
+												if _dwr_Acc{i} ==  'I' then
+													RED.libpart = 'Parts\UCS\labels\K-Cup Slider Label'
+													RED.desc = 'zK-Cup Slider'
+												end if
+											end if
+										end if
+									end if
+								end if
+							end if
+						end if
+					end if
+				end if
+ 
+				; set label Y value
+				if i == 1 or i == 3 then  ; values are top accessories
+					RED.Y = :DY*0.95 - DY
 				else
-					if _dwr_drawerDesign == 2 then  ; 2 equal openings - inserts side by side
-						;labels stuck to top of centerline of DWR and on left and right of vertical centerline
-						RED2.X = 0
-						RED2.Y = :DY*0.9 - DY
-						
-					else
-						if _dwr_drawerDesign == 3 then  ; 2 unequal openings - inserts on left, open on right
-							; labels stacked on left side
-							RED2.X = 0
-							RED2.Y = :DY*0.9 - DY
-						else
-							if _dwr_drawerDesign == 4 then  ; 2 unequal openings - inserts on right, open on left								
-								; labels stacked on right side
-								RED2.X = :DX - DX
-								RED2.Y = :DY*0.9 - DY
-							end if  ; _dwr_drawerDesign == 4
-						end if  ; _dwr_drawerDesign == 3
-					end if  ; _dwr_drawerDesign == 2
-				end if  ; _dwr_drawerDesign == 1
-			end if  ; _dwr_topOrLeft != 9	
-			
-			if _dwr_bottomOrRight != 9 then
-				if _dwr_drawerDesign == 1 then  ; design is full width
-					; center-justify right/bottom insert
-					RED.X = :DX/2 - DX/2
-					RED.Y = :DY/2 - DY
-				
+					RED.Y = :DY*2/5 - DY
+				end if
+					
+				; set label X value
+				if _dwr_accessoryLayout == 'A' then  
+					; design is full width. Center labels
+					RED.X = :DX/2 - DX/2            
 				else
-					if _dwr_drawerDesign == 2 then  ; 2 equal openings - inserts side by side
-						;labels stuck to top of centerline of DWR and on left and right of vertical centerline
-						RED.X = :DX - DX
-						RED.Y = :DY*0.9 - DY
-						
+					if _dwr_accessoryLayout == 'B' then
+						; labels come outward from the middle
+						if i == 1 or i == 2 then  	; left accessories
+							RED.X = :DX*0.48 - DX
+							;RED.X = :DX*0.25 - DX/2
+						else						; right accessories
+							RED.X = :DX*0.52
+							;RED.X = :DX*0.75 - DX/2
+						end if	
 					else
-						if _dwr_drawerDesign == 3 then  ; 2 unequal openings - inserts on left, open on right
-							; labels stacked on left side
-							RED.X = 0
-							RED.Y = :DY/2 - DY
-						else
-							if _dwr_drawerDesign == 4 then  ; 2 unequal openings - inserts on right, open on left								
-								; labels stacked on right side
+						if _dwr_accessoryLayout == 'C' then
+							; labels come inward from the edges of the drawer
+							if i == 1 or i == 2 then  	; left accessories
+								RED.X = 0 
+							else						; right accessories
 								RED.X = :DX - DX
-								RED.Y = :DY/2 - DY
-							end if  ; _dwr_drawerDesign == 4
-						end if  ; _dwr_drawerDesign == 3
-					end if  ; _dwr_drawerDesign == 2
-				end if  ; _dwr_drawerDesign == 1
-			end if  ; _dwr_bottomOrRight != 9				
-			
-;			RED.owner = DWR_OPEN
-;			RED2.owner = DWR_OPEN
-	   	end if  ; cab._c_showLabels == TRUE then
-	else
+							end if						
+						end if
+					end if
+					
+				end if
+			end if
+			i += 1
+		end while			
+   	end if  ; cab._c_showLabels == TRUE then    
+   	
+   	if debug == 1 then    	
+		dim DRAWER as new part                                      
+			DRAWER.owner = cab
+			DRAWER.name = 'Drawer Accessories = ${_dwr_AccessoryCost}'
+			DRAWER.visible = FALSE
+	end if
+   	   
+   	   
+   	exit
+   	
+else ; _dwr_AccSelector == 1
+	delete _dwr_accessoryLayout			
+	delete _dwr_Acc1
+	delete _dwr_Acc2		
+	delete _dwr_Acc3	
+	delete _dwr_Acc4
+	delete _dwr_code
+	delete _dwr_AccessoryCost
+	
+	delete _dwr_Accessory_X
+	delete _dwr_Accessory_A
+	delete _dwr_Accessory_B
+	delete _dwr_Accessory_C
+	delete _dwr_Accessory_D
+	delete _dwr_Accessory_E
+	delete _dwr_Accessory_F
+	delete _dwr_Accessory_G
+	delete _dwr_Accessory_H
+	delete _dwr_Accessory_I
+	
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;  Drawer is getting a standard accessory	  ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-		if _dwr_AccSelector >= 10 AND _dwr_AccSelector < 50 then
-			delete _dwr_topOrLeft
-			delete _dwr_bottomOrRight
-			delete _dwr_drawerDesign
-			delete _dwr_insertCode_1
-			delete _dwr_insertCode_2
-			delete _dwr_insertCode_3
-			delete _dwr_insertCode_4
-			delete _dwr_insertCode_5
-			delete _dwr_insertCode_6
-			delete _dwr_insertCode_7
-			delete _dwr_insertCode_8
-			delete _dwr_insertCode_9
-			delete _dwr_designCode_1
-			delete _dwr_designCode_2
-			delete _dwr_designCode_3
-			delete _dwr_designCode_4
-			delete _dwr_customCost
-			delete _dwr_customDesc
-			
-			;_dwr_AccExists<bool> = TRUE
-			
-			if _dwr_AccSelector == 10 then  ; peg drawer
-				; peg drawer code 
-				
-				if :DX > 28 then
-					_dwr_AccessoryCost<meas> := 150
-				else
-					if :DX > 18 AND :DX <= 28 then
-						_dwr_AccessoryCost<meas> := 130     
-					else
-						if :DX <= 18 then
-							_dwr_AccessoryCost<meas> := 90
-						end if  ; :DX <= 18		
-					end if  ; :DX > 18 AND :DX <= 28 		
-				end if  ; :DX > 28	  			 		
-				
-				_dwr_code<text> = 'PEG'
-				
-				if cab._c_showLabels == TRUE then
-					dim RED as new part
-						RED.X = 20
-						RED.Z = 1
-						;RED.EDX = -DX  
-						RED.X = :DX/2 - DX/2
-						RED.Y = :DY*0.9 - DY
-						RED.libpart = 'Parts\UCS\labels\Peg drawer label' 
-						RED.owner = DWR_OPEN
-				end if		
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 
-				
-			else
-				if _dwr_AccSelector == 11 then  ; bread lid
-                    
-                    if cab._c_showLabels == TRUE then
-						dim RED as new part
-							RED.X = 20
-							RED.Z = 1
-							;RED.EDX = -DX  
-							RED.X = :DX/2 - DX/2
-							RED.Y = :DY*0.9 - DY
-							RED.libpart = 'Parts\UCS\labels\Bread lid label'
-							RED.owner = DWR_OPEN
-					end if		
-						
-					_dwr_code<text> = 'BR'
-					_dwr_AccessoryCost<meas> := 50		
-				end if  ; _dwr_AccSelector == 11
-			end if ; _dwr_AccSelector == 10
-						
-			; standard accesory codes here
-			
-		else
-		
-			if _dwr_AccSelector == 50 then
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;  Drawer is super custom accessory		  ;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-				delete _dwr_topOrLeft
-				delete _dwr_bottomOrRight
-				delete _dwr_drawerDesign
-				delete _dwr_insertCode_1
-				delete _dwr_insertCode_2
-				delete _dwr_insertCode_3
-				delete _dwr_insertCode_4
-				delete _dwr_insertCode_5
-				delete _dwr_insertCode_6
-				delete _dwr_insertCode_7
-				delete _dwr_insertCode_8
-				delete _dwr_insertCode_9
-				delete _dwr_designCode_1
-				delete _dwr_designCode_2
-				delete _dwr_designCode_3
-				delete _dwr_designCode_4
-				
-				;_dwr_AccExists<bool> = TRUE         
-				
-				if _dwr_customDesc == NULL then
-					_dwr_customDesc<text> = 'CHANGE ME'
-				end if	
-					_dwr_customDesc<style> = 1
-					_dwr_customDesc<desc> = '58 Custom Desc'
-				
-				if _dwr_customCost == null then
-					_dwr_customCost<meas> = 1000000
-				end if
-					_dwr_customCost<style> = 1
-					_dwr_customCost<desc> = '59 Quoted cost:'
-				
-				if cab._c_showLabels == TRUE then
-					dim RED as new part
-						RED.X = 20
-						RED.Z = 1
-						RED.EDX = -DX  
-						RED.X = :DX/2 - DX/2
-						RED.Y = :DY*0.9 - DY
-						RED.libpart = 'Parts\UCS\labels\Custom drawer label'   
-						RED.owner = DWR_OPEN
-				end if		
-				
-				_dwr_code<text> ='SP'
-				
-				_dwr_AccessoryCost := _dwr_customCost
-				
-
-			end if  ; _dwr_AccSelector == 50
-			
-		end if  ; _dwr_AccSelector <= 10 AND _dwr_AccSelector > 50
-		
-	end if  ; _dwr_AccSelector == 1
+	_dwr_AccessoryCost<dec> := 0
 	
-end if  ; _dwr_AccSelector == -1			 		
+	dim RED as new part
+		;RED.X = 20
+		RED.Z = 1
+		;RED.EDX = -DX  
+		RED.X = :DX/2 - DX/2
+		RED.Y = :DY*0.9 - DY
+		RED.owner = DWR_OPEN
+	
+	if _dwr_AccSelector == 2 then  ; Fixed Dividers
+		delete _dwr_CanisterCount
+	
+		if cab._c_showLabels == TRUE then
+			RED.libpart = 'Parts\UCS\labels\Fixed Dividers label' 
+		end if
+		
+		_dwr_AccessoryCost<dec> := 0 ; priced in drawer box pricing UCS
+		
+		_dwr_code<text> = 'FDIV'
+	else
+		if _dwr_AccSelector == 3 then  ; Movable Dividers
+			delete _dwr_CanisterCount
+		
+			if cab._c_showLabels == TRUE then
+				RED.libpart = 'Parts\UCS\labels\Movable Dividers label' 
+			end if		                  
+			
+			_dwr_AccessoryCost<dec> := 0 ; priced in drawer box pricing UCS
+			
+			_dwr_code<text> = 'MDIV'
+		else
+			if _dwr_AccSelector == 4 then  ; Canister Drawer
+			    
+			    if this._dwr_CanisterCount == NULL then
+			    	_dwr_CanisterCount<int> = 0               
+			    end if
+			    	_dwr_CanisterCount<style> = 1
+			    	_dwr_CanisterCount<desc> = '51 Canister Qty:'	
+			    	
+				if cab._c_showLabels == TRUE AND this._dwr_CanisterCount > 0 then
+					RED.libpart = 'Parts\UCS\labels\Canister Drawer label' 
+				end if		                                                    
+				
+				_dwr_AccessoryCost<dec> := _dwr_CanisterCount * 7 ; $7 per canister 
+				
+				_dwr_code<text> = 'CAN'
+			else
+				if _dwr_AccSelector == 5 then  ; bread drawer
+					delete _dwr_CanisterCount
+				    
+				    if cab._c_showLabels == TRUE then
+						RED.libpart = 'Parts\UCS\labels\Bread drawer label'
+					end if
+					
+					_dwr_AccessoryCost<dec> := (:DX * :DY / 144) * 0.85 + 10 ; cost of a top (same as bottom) + $10 
+						
+					_dwr_code<text> = 'BD'
+				else
+					if _dwr_AccSelector == 6 then  ; file drawer
+						delete _dwr_CanisterCount
+						
+					    if cab._c_showLabels == TRUE then
+							RED.libpart = 'Parts\UCS\labels\file drawer label'
+						end if		                 
+						
+						_dwr_AccessoryCost<dec> := 7
+							
+						_dwr_code<text> = 'FD'
+					else
+						if _dwr_AccSelector == 7 then  ; Lateral file drawer
+							delete _dwr_CanisterCount
+							
+						    if cab._c_showLabels == TRUE then
+								RED.libpart = 'Parts\UCS\labels\lateral file drawer label'
+							end if
+							
+							_dwr_AccessoryCost<dec> := 7
+								
+							_dwr_code<text> = 'LFD'
+						else
+							if _dwr_AccSelector == 8 then  ; Tray drawer  
+								delete _dwr_CanisterCount
+								
+							    if cab._c_showLabels == TRUE then
+									RED.libpart = 'Parts\UCS\labels\Tray drawer label'
+								end if
+								 
+								_dwr_AccessoryCost<dec> := trunc((:DX - 1.25)/4.625) * 12 ; $12 per divider. 4" minimum between 
+									
+								_dwr_code<text> = 'CTD'
+							end if  ; _dwr_AccSelector == 8 		
+						end if  ; _dwr_AccSelector == 7
+					end if  ; _dwr_AccSelector == 6
+				end if  ; _dwr_AccSelector == 5						
+			end if  ; _dwr_AccSelector == 4		
+		end if  ; _dwr_AccSelector == 3
+	end if  ; _dwr_AccSelector == 2
+	
+	if debug == 1 then    	
+		dim DRAWER as new part                                      
+			DRAWER.owner = cab
+			DRAWER.name = 'Drawer Accessories = ${_dwr_AccessoryCost}'
+			DRAWER.visible = FALSE
+	end if
+end if ; _dwr_AccSelector == 1
