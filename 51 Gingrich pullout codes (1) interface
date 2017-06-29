@@ -12,13 +12,13 @@ if _pulloutUCSrev2 == NULL then
 end if	
  
 if this._pulloutCodeSelector == NULL then
-	_pulloutCodeSelector<int> = <lst>'01 Standard=1|00 No Scoop=-1|02 Front/Back Scoop=2|Custom=10'
+	_pulloutCodeSelector<int> = <lst>'01 Standard=1|00 No Scoop=0|02 Front/Back Scoop=2|Custom=10'
 end if
 	_pulloutCodeSelector<style> = 1
 	_pulloutCodeSelector<desc> = '82 Pullout code:'  
 
 	
-if _pulloutCodeSelector == -1 then
+if _pulloutCodeSelector == 0 then
 	; no scoop
 	_pulloutCode<text> = ' '
 	exit
