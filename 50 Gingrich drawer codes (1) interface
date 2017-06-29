@@ -92,7 +92,7 @@ end if
 ;;;  Initial user interface	    ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
 if this._dwr_AccSelector == NULL then
-	_dwr_AccSelector<int> = <lst>'00 None=-1|01 Configure=1|02 Fixed Dividers=2|03 Movable Dividers=3|04 Canister Drawer=4|05 Bread Drawer=5|06 File Drawer=6|07 Lateral File Drawer=7|08 Tray Drawer=8'
+	_dwr_AccSelector<int> = <lst>'00 None=-1|01 Configure=1|02 Fixed Dividers=2|03 Movable Dividers=3|04 Canister Drawer=4|05 Bread Drawer=5|06 File Drawer=6|07 Lateral File Drawer=7|08 Tray Drawer=8|09 Peg Drawer=9'
 end if 
 	_dwr_AccSelector<style> = 1
 	_dwr_AccSelector<desc> = '50 Drawer Accessory'	
@@ -461,6 +461,21 @@ else ; _dwr_AccSelector == 1
 								_dwr_AccessoryCost<dec> := trunc((:DX - 1.25)/4.625) * 12 ; $12 per divider. 4" minimum between 
 									
 								_dwr_code<text> = 'CTD'
+							else
+								if _dwr_AccSelector == 9 then  ; Peg drawer                                                       	
+									delete _dwr_CanisterCount                                                                      
+									                                                                                               
+								    if cab._c_showLabels == TRUE then                                                              
+										RED.libpart = 'Parts\UCS\labels\Peg drawer label'                                         
+									end if                                                                                         
+									
+									if :DX <= 25 then
+										_dwr_AccessoryCost<dec> := 95
+									else               
+									    _dwr_AccessoryCost<dec> := 100
+									end if                                                                                   
+									_dwr_code<text> = 'PEG'
+								end if                                                                        
 							end if  ; _dwr_AccSelector == 8 		
 						end if  ; _dwr_AccSelector == 7
 					end if  ; _dwr_AccSelector == 6
