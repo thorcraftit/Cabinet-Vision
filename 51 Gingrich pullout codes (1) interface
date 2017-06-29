@@ -1,6 +1,7 @@
-For Each ROF part
+;Interface for choosing pullout codes for ordering
 
-if this.CONSTID != 24 AND this.CONSTID != 26 then             ; bail out if not a Gingrich rollout construction method
+For Each ROF part
+if this.CONSTID != 24 AND this.CONSTID != 26 then             ; bail out if not a buyout rollout construction method
 	exit
 end if
  
@@ -11,84 +12,32 @@ if _pulloutUCSrev2 == NULL then
 end if	
  
 if this._pulloutCodeSelector == NULL then
-	_pulloutCodeSelector<int> = <lst>'Standard=1|Custom=10'
+	_pulloutCodeSelector<int> = <lst>'01 Standard=1|00 No Scoop=-1|02 Front/Back Scoop=2|Custom=10'
 end if
 	_pulloutCodeSelector<style> = 1
 	_pulloutCodeSelector<desc> = '82 Pullout code:'  
+
 	
-if _pulloutCodeSelector == 1 then
-	_pulloutCode<text> = 'S1'
+if _pulloutCodeSelector == -1 then
+	; no scoop
+	_pulloutCode<text> = ' '
 	exit
 else
-	if _pulloutCodeSelector == 10 then           
-		_pulloutCode<text> = 'Custom'
-		exit  
-	end if	 
-end if	  
-
-
-
-
-
-; old UCS below
-;
-;
-;For Each ROF part
-;
-;if this.CONSTID != 24 AND this.CONSTID != 26 then             ; bail out if not a Gingrich rollout construction method
-;	exit
-;end if
-;
-;_pulloutCode_default<text> = 'R1X'
-;_pulloutCode_1<text> = 'SP1'
-;_pulloutCode_2<text> = 'SP2'
-;_pulloutCode_3<text> = 'SP3'
-;_pulloutCode_4<text> = 'SP4'
-;_pulloutCode_5<text> = 'SP5'
-;
-;
-;
-;if this._pulloutCodeSelector == NULL then
-;	_pulloutCodeSelector<int> = <lst>'Standard (R1X)=-1|SP1=1|SP2=2|SP3=3|SP4=4|SP5=5|Custom=10'
-;end if
-;	_pulloutCodeSelector<style> = 1
-;	_pulloutCodeSelector<desc> = '82 Pullout code:'  
-;	
-;if _pulloutCodeSelector == 1 then
-;
-;	delete _temp1
-;	delete _pulloutTempCode
-;	
-;	_pulloutCode<text> = {_pulloutCode_default}
-;	
-;	exit
-;
-;else
-;
-;	if _pulloutCodeSelector == 10 then           
-;	
-;		delete _temp1
-;	
-;		if this._pulloutTempCode == NULL then
-;			_pulloutTempCode<text> = 'CHANGE ME'
-;		end if 	
-;			_pulloutTempCode<style> = 1
-;			_pulloutTempCode<desc> = '83 Gingrich Code:'
-;			
-;		_pulloutCode<text> = {_pulloutTempCode}
-;	
-;		exit                       
-;	          
-;	else      
-;	
-;	    delete _pulloutTempCode
-;	    
-;		_temp1<int> = '_pulloutCode_{_pulloutCodeSelector}'
-;		_pulloutCode<text> = '{_temp1}'
-;	
-;	end if	 
-;	
-;end if	  
-;
-;_temp1<int> = '_pulloutCode_{_pulloutCodeSelector}'
-;_pulloutCode<text> = '{_temp1}'	
+	if _pulloutCodeSelector == 1 then
+		;standard scoop in front
+		_pulloutCode<text> = 'S1F'
+		exit
+	else
+		if _pulloutCodeSelector == 2 then
+			;standard scoop front and back
+			_pulloutCode<text> = 'S1FB'
+			exit
+		else
+			if _pulloutCodeSelector == 10 then           
+				;custom pullout
+				_pulloutCode<text> = 'Custom'
+				exit  
+			end if	 
+		end if	
+	end if
+end if
