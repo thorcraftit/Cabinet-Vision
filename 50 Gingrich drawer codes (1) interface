@@ -1,9 +1,9 @@
 ;Interface for choosing drawer accessories 
-;All pricing is in another UCS
 ;All changes to drawer box parts are in another UCS
 For Each DWR part 
 
-public debug<int> = 0		; Enable Debug
+; Enable Debug
+public debug<int> = 0		
 
 if this._dwr_Accessories_v2 == NULL then
 	_dwr_Accessories_v2<bool> = TRUE 
@@ -62,7 +62,7 @@ if :STYPE != 2 then
 	exit
 end if              
 
-; bail out if not Gingrich dovetail box   
+; bail out if not dovetail box   
 if :.BF.CONSTID != 23 AND :.BF.CONSTID != 25 then
 	delete _dwr_accessoryLayout			
 	delete _dwr_Acc1
@@ -129,7 +129,6 @@ end if
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;  Drawer will get insert(s) based on the calculator below  ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	
 if _dwr_AccSelector == 1 then
     ;base price for smallest accessory
  	_dwr_Accessory_X<dec> := 0	; 	none
@@ -226,7 +225,7 @@ if _dwr_AccSelector == 1 then
     			; Accessory H = spice
     			if _dwr_accessoryLayout == 'A' then ; check for drawer that is too wide for spice
 	    			if :DX > 25.25 then
-    					_dwr_AccessoryCost<dec> += _dwr_Accessory_H ; add another insert of the box is too wide
+    					_dwr_AccessoryCost<dec> += _dwr_Accessory_H ; add another insert if the box is too wide
 					end if
     			end if
     		end if
