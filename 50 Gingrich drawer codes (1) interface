@@ -36,8 +36,37 @@ if this._dwr_Accessories_v2 == NULL then
 
 end if
 
+if this.trashSelector != NULL and this.trashSelector != 0 then		
+	delete _dwr_AccSelector
+	delete _dwr_accessoryLayout			
+	delete _dwr_Acc1
+	delete _dwr_Acc2		
+	delete _dwr_Acc3	
+	delete _dwr_Acc4          
+	;don't delete these because the trash UCS needs them
+	;delete _dwr_AccessoryCost
+	;delete _dwr_Code
+	
+	delete _dwr_Accessory_X
+	delete _dwr_Accessory_A
+	delete _dwr_Accessory_B
+	delete _dwr_Accessory_C
+	delete _dwr_Accessory_D
+	delete _dwr_Accessory_E
+	delete _dwr_Accessory_F
+	delete _dwr_Accessory_G
+	delete _dwr_Accessory_H
+	delete _dwr_Accessory_I
+	
+	delete _dwr_CanisterCount
+
+	exit
+end if	
+
 ; bail out if not drawer box opening
-if :STYPE != 2 then		
+if :STYPE != 2 then
+	delete _dwr_AccSelector
+	
 	delete _dwr_accessoryLayout			
 	delete _dwr_Acc1
 	delete _dwr_Acc2		
