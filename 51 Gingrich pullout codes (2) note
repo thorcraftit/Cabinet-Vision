@@ -1,0 +1,11 @@
+For Each TRAY_OPEN opening
+
+if this.ROF.CONSTID != 24 AND this.ROF.CONSTID != 26 then             ; bail out if not a Gingrich rollout construction method
+	exit
+end if
+
+temp1<text> = 'this.ROF._pulloutCode'
+temp2<int> = {temp1}
+_pulloutCode<text> = '{temp2}'
+_pulloutCode<style> = 2
+_pulloutCode<desc> = _pulloutCode
