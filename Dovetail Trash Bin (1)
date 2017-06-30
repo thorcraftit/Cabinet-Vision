@@ -128,8 +128,8 @@ else
 	RED.Y = :DY*0.85 - DY
 	RED.X = :DX/2 - DX/2					
 	
-	if :DX <= minimumWidth or :DY <= minimumHeight or minimumDepth < 1 then
-	
+	if :DX < minimumWidth or :DY < minimumHeight or (:.BF.pabsz - :.BBK.pabsz) < minimumDepth then
+	     _dwr_code<text> = 'STOP'
 		_dwr_AccessoryCost<dec> := 10000
 		
 		Dim RED2 as new part
