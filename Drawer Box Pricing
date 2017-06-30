@@ -115,12 +115,6 @@ end if
 		end if			
 	end if			 		
 		
-	
-;	dim DRAWER as new part                  
-;		DRAWER.owner = cab
-;		DRAWER.name = 'Divider cost = ${b_dividerTotalCost}' 
-;		DRAWER.visible = FALSE
-		
 	PRICE<dec> := b_MachiningCost + b_SetupCost + b_materialCost + b_AccessoryCost + b_dividerTotalCost
 	;only discount materials. machine cost is never discounted.
 
@@ -129,4 +123,9 @@ if debug == TRUE then
 		DRAWER.owner = cab
 		DRAWER.name = 'Drawer Price = ${PRICE}' 
 		DRAWER.visible = FALSE
+		
+	dim DRAWER1 as new part                  
+		DRAWER1.owner = cab
+		DRAWER1.name = 'Divider cost = ${b_dividerTotalCost}' 
+		DRAWER1.visible = FALSE
 end if
