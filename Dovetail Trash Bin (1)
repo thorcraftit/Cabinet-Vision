@@ -1,0 +1,45 @@
+;Provides interface for trashbin selection
+
+For Each BF part
+   
+if this.trashSelector == NULL then
+	trashSelector<int> = <lst>'00 None=0|01 Single 35q=1|02 Single 35q Lat=2|03 DB 35q=3|04 DB 35q Lat=4|05 Single 50q=5|06 Single 50q Lat=6|07 DB 50q=7|08 DB 50q Lat=8'
+end if
+	trashSelector<style> = 1
+	trashSelector<desc> = 'Trash bin'
+   
+if this.trashSelector == 0 then
+	trashDrawerCode<text> = ' '
+else
+	if this.trashSelector == 1 then
+		trashDrawerCode<text> = 'T-S35'
+	else
+		if this.trashSelector == 2 then
+			trashDrawerCode<text> = 'T-S35L'  
+		else                             
+			if this.trashSelector == 3 then      	
+		    	trashDrawerCode<text> = 'T-D35'
+		    else
+		    	if this.trashSelector == 4 then                                     
+		        	trashDrawerCode<text> = 'T-D35L'
+		        else                            
+		        	if this.trashSelector == 5 then       
+		            	trashDrawerCode<text> = 'T-S50'
+		            else                            
+		            	if this.trashSelector == 6 then       
+		                	trashDrawerCode<text> = 'T-S50L'
+		                else
+		                	if this.trashSelector == 7 then                                   
+		                    	trashDrawerCode<text> = 'T-D50'
+		                    else                            
+		                    	if this.trashSelector == 8 then       
+		                        	trashDrawerCode<text> = 'T-D50L'
+		                        end if                              
+		                    end if
+		                end if
+		            end if
+		        end if
+		    end if
+		end if
+	end if
+end if
