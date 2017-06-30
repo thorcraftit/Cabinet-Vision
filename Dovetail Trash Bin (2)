@@ -1,0 +1,12 @@
+; Copy the ordering code from the box front to the DWR_OPEN for reporting
+For Each DWR_OPEN opening
+
+if this.BF.trashSelector == NULL or this.BF.trashSelector == 0 then
+	exit
+end if
+
+tempTrash1<text> = 'this.BF.trashDrawerCode'
+tempTrash2<int> = {tempTrash1}
+_DWRCode<text> = '{tempTrash2}'
+_DWRCode<style> = 2
+_DWRCode<desc> = _DWRCode
