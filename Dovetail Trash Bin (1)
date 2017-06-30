@@ -32,7 +32,7 @@ else
 		_dwr_code<text> = 'T-S35'
 		_dwr_AccessoryCost<dec> := 55
 		
-		;RED.libpart = 'Parts\UCS\labels\'
+		RED.libpart = 'Parts\UCS\labels\S35 Trash Label'
 		RED.desc = 'S35 Trash Label'
 		
 		minimumWidth<meas> := 12
@@ -44,7 +44,7 @@ else
 			_dwr_code<text> = 'T-S35L'  
 			_dwr_AccessoryCost<dec> := 55
 			                                  
-			;RED.libpart = 'Parts\UCS\labels\'
+			RED.libpart = 'Parts\UCS\labels\S35L Trash Label'
 			RED.desc = 'S35L Trash Label'      
 			                                  
 			minimumWidth<meas> := 15 
@@ -55,7 +55,7 @@ else
 		    	_dwr_code<text> = 'T-D35'
 		    	_dwr_AccessoryCost<dec> := 65
 		    	                                  
-		    	;RED.libpart = 'Parts\UCS\labels\'
+		    	RED.libpart = 'Parts\UCS\labels\D35 Trash Label'
 		    	RED.desc = 'D35 Trash Label'      
 		    	                                  
 		    	minimumWidth<meas> := 15 
@@ -66,7 +66,7 @@ else
 		        	_dwr_code<text> = 'T-D35L'
 		        	_dwr_AccessoryCost<dec> := 65 
 		        	                                  
-		        	;RED.libpart = 'Parts\UCS\labels\'
+		        	RED.libpart = 'Parts\UCS\labels\S35L Trash Label'
 		        	RED.desc = 'D35L Trash Label'      
 		        	                                  
 		        	minimumWidth<meas> := 21 
@@ -77,7 +77,7 @@ else
 		            	_dwr_code<text> = 'T-S50'
 		            	_dwr_AccessoryCost<dec> := 65
 		            	                                  
-		            	;RED.libpart = 'Parts\UCS\labels\'
+		            	RED.libpart = 'Parts\UCS\labels\S50 Trash Label'
 		            	RED.desc = 'S50 Trash Label'      
 		            	                                  
 		            	minimumWidth<meas> := 15.5 
@@ -88,7 +88,7 @@ else
 		                	_dwr_code<text> = 'T-S50L'
 		                	_dwr_AccessoryCost<dec> := 65
 		                	                                  
-		                	;RED.libpart = 'Parts\UCS\labels\'
+		                	RED.libpart = 'Parts\UCS\labels\S50L Trash Label'
 		                	RED.desc = 'S50L Trash Label'      
 		                	                                  
 		                	minimumWidth<meas> := 15 
@@ -99,7 +99,7 @@ else
 		                    	_dwr_code<text> = 'T-D50'
 		                    	_dwr_AccessoryCost<dec> := 75
 		                    	                                  
-		                    	;RED.libpart = 'Parts\UCS\labels\'
+		                    	RED.libpart = 'Parts\UCS\labels\D50 Trash Label'
 		                    	RED.desc = 'D50 Trash Label'      
 		                    	                                  
 		                    	minimumWidth<meas> := 15.5 
@@ -110,7 +110,7 @@ else
 		                        	_dwr_code<text> = 'T-D50L'
 		                        	_dwr_AccessoryCost<dec> := 75
 		                        	                                  
-		                        	;RED.libpart = 'Parts\UCS\labels\'
+		                        	RED.libpart = 'Parts\UCS\labels\D50L Trash Label'
 		                        	RED.desc = 'D50L Trash Label'      
 		                        	                                  
 		                        	minimumWidth<meas> := 23 
@@ -124,6 +124,10 @@ else
 		    end if
 		end if
 	end if
+	
+	RED.Y = :DY*0.85 - DY
+	RED.X = :DX/2 - DX/2					
+	
 	if minimumWidth < :DX or minimumHeight < :DY or minimumDepth < 1 then
 		Dim RED2 as new part
 		;stop sign
