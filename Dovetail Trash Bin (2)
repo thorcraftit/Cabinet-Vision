@@ -7,11 +7,6 @@ end if  ; cab.class != ASM_Class_Base
 
 if this.DWR.trashSelector == NULL or this.DWR.trashSelector == 0 then
 
-	if trashUCSPREF == TRUE then
-		delete trashUCSPREF
-		delete PREF
-	end if
-	
 	if trashUCSPVO == TRUE then
 		delete trashUCSPVO
 		delete PVO
@@ -25,12 +20,8 @@ if this.DWR.trashSelector == NULL or this.DWR.trashSelector == 0 then
 	exit
 end if  
 
-PREF = 1
-trashUCSPREF<bool> = TRUE
-trashUCSPREF<style> = 2
-trashUCSPREF<desc> = trashUCSPREF
-
-PVO = this.DWR.DTR.DX/2  
+; use this math instead of PREF=1. setting PREF fails when PQ > 1 (pull quantity)
+PVO = -this.DWR.DY/2 + this.DWR.DTR.DX/2  
 trashUCSPVO<bool> = TRUE
 trashUCSPVO<style> = 2
 trashUCSPVO<desc> = trashUCSPVO
