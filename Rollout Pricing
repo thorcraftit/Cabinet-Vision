@@ -1,0 +1,132 @@
+;Modifies Drawer Price For Conestoga Pricing
+;Set DESIGNPR for each style of price
+;Check Lineal Inch Prices
+;Check Design Prices
+;Check Finishing Prices
+;By Kaleb Marske 8/3/06
+;Modified 4/20/07 to Include Finishing Price and Min. Lineal Inch
+;ksmarske@gmail.com    
+;2/26/09 Modified for Ginrich Woodcraft drawers by Bruce Kruger
+
+For Each TRAY_OPEN Opening
+
+public debug<int> = 0		;enable debug
+
+If this.ROF.constID != 24 AND this.ROF.constID != 26 AND this.ROF.constID != 30 Then	;limit UCS to Gingrich pullouts
+	exit
+end if	
+
+
+if this.ROF._M:SCHEDID = 62 then		; Gingrich White Birch   
+	b_GingrichDiscount<dec> = 0.10
+	b_sizeCutoff<dec> = 6
+	b_CutoffAndUnderCost<dec> = 10.75	;on boxes 6" high and under, cost per square foot - can be discounted depending on order QTY
+	b_OverCutoffCost<dec> = 8.96		;on boxes over 6" high, cost per square foot - can be discounted depending on order QTY
+	b_BottomCost<dec> = 2.05 			;cost per square foot of bottom - can be discounted depending on order QTY
+	b_ScoopCost<dec> = 4.00
+	
+	b_dividerSqFtCost<dec> = 8				; cost per square foot of divider. Never discounted.     
+else  
+	if this.ROF._M:SCHEDID = 490 then		; Gingrich Econo Maple
+		b_GingrichDiscount<dec> = 0.10
+		b_sizeCutoff<dec> = 6
+		b_CutoffAndUnderCost<dec> = 7.50	;on boxes 6" high and under, cost per square foot - can be discounted depending on order QTY
+		b_OverCutoffCost<dec> = 6.00		;on boxes over 6" high, cost per square foot - can be discounted depending on order QTY
+		b_BottomCost<dec> = 1.95 			;cost per square foot of bottom - can be discounted depending on order QTY
+		b_ScoopCost<dec> = 4.00
+		b_MachiningCost<dec> = 11			;cost per box for notching and finishing - no discount
+		
+		b_singleDivSetup<dec> = 15      		; setup cost for single divider. Never discounted.
+		b_multipleDivSetup<dec> = 25			; setup cost for multiple dividers. Never discounted.
+		
+		b_dividerSqFtCost<dec> = 8				; cost per square foot of divider. Never discounted. 
+	end if
+end if
+
+if this.ROF.CONSTID == 24 OR this.ROF.CONSTID == 26 then		; Gingrich drawers with Blum notching
+		b_MachiningCost<dec> = 10				;cost per box for notching and finishing. Never discounted.
+		b_singleDivSetup<dec> = 15      		; setup cost for single divider. Never discounted.
+		b_multipleDivSetup<dec> = 25			; setup cost for multiple dividers. Never discounted.
+else
+	if this.ROF.CONSTID == 30 then ; Gingrich pullouts with NO notching	
+		b_MachiningCost<dec> = 8				;cost per box for notching and finishing. Never discounted.	
+		b_singleDivSetup<dec> = 15      		; setup cost for single divider. Never discounted.
+		b_multipleDivSetup<dec> = 25			; setup cost for multiple dividers. Never discounted.
+	end if
+end if
+
+
+		
+	
+
+if this.b_AccessoryCost == NULL then
+	b_AccessoryCost<dec> = 0 		; total accessory cost
+end if	
+    
+   
+b_AreaSides<dec> := 2*(boxw * boxh)/144 + 2*(boxd * boxh)/144
+b_AreaBottom<dec> := boxw * boxd / 144              
+
+If boxH <= b_sizeCutoff then ;b_sizeCutoff then
+	b_BoxSidesCost<dec> := b_AreaSides * b_CutoffAndUnderCost
+else
+	b_BoxSidesCost<dec> := b_AreaSides * b_OverCutoffCost	
+end if 
+
+;search for partitions and dividers here
+temp_loop<int> = 1
+while this.S_RODI@{temp_loop}.PID > 0 do
+	;b_AccessoryCost += b_dividerCost
+	b_boxDividers += b_dividerCost
+	temp_loop += 1
+end while
+
+;search for partitions and dividers here
+b_DividerCount<int> = 0
+b_dividerTotalCost<dec> = 0
+temp_loop<int> = 1
+while this.S_RODI@{temp_loop}.PID > 0 do
+	b_dividerTotalCost += (this.S_RODI@{temp_loop}.DX * this.S_RODI@{temp_loop}.DY / 144) * b_dividerSqFtCost
+	b_DividerCount += 1
+	temp_loop += 1
+end while
+
+temp_loop<int> = 1
+while this.S_ROPT@{temp_loop}.PID > 0 do
+	b_dividerTotalCost += (this.S_ROPT@{temp_loop}.DX * this.S_ROPT@{temp_loop}.DY / 144) * b_dividerSqFtCost
+	b_DividerCount += 1
+	temp_loop += 1
+end while    
+
+delete temp_loop  
+           
+           
+if b_dividerCount > 0 then
+	if b_dividerCount >= 2 then 
+		b_dividerTotalCost<dec> += b_multipleDivSetup	
+	else
+		b_dividerTotalCost<dec> += b_singleDivSetup
+	end if
+end if
+
+
+
+
+b_BoxBottomCost<dec> := b_AreaBottom * b_BottomCost 
+b_materialCost<dec> := (b_BoxBottomCost + b_BoxSidesCost) * (1 - b_GingrichDiscount)       
+
+PRICE<dec> := b_MachiningCost + b_materialCost + b_ScoopCost + b_AccessoryCost + b_dividerTotalCost
+;only discount materials. machine cost is never discounted.
+
+
+if debug == TRUE then	        
+	dim PULLOUT as new part                  
+		PULLOUT.owner = cab
+		PULLOUT.name = 'Pullout Price = ${PRICE}' 
+		PULLOUT.visible = FALSE
+	
+	dim PULLOUT as new part                  
+		PULLOUT.owner = cab
+		PULLOUT.name = 'Divider Price = ${b_dividerTotalCost}' 
+		PULLOUT.visible = FALSE
+end if
