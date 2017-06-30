@@ -128,8 +128,19 @@ else
 	RED.Y = :DY*0.85 - DY
 	RED.X = :DX/2 - DX/2					
 	
-	if minimumWidth < :DX or minimumHeight < :DY or minimumDepth < 1 then
+	if :DX <= minimumWidth or :DY <= minimumHeight or minimumDepth < 1 then
+	
+		_dwr_AccessoryCost<dec> := 10000
+		
 		Dim RED2 as new part
+			RED2.X = :DX/2 - DX/2
+			RED2.Y = :.RED.Y - DY - 1
+			RED2.dz = 0.25
+			RED2.Z = 2
+			RED2.EDX = -DX
+			RED2.libpart = 'Parts\UCS\labels\Stop Sign Label'
+		    RED2.desc = 'Stop Sign Label'
+			 
 		;stop sign
 	end if
 end if
