@@ -1,12 +1,41 @@
 ; Copy the ordering code from the box front to the DWR_OPEN for reporting
 For Each DWR_OPEN opening
 
-if this.BF.trashSelector == NULL or this.BF.trashSelector == 0 then
-	exit
-end if
+if cab.class != ASM_Class_Base and cab.class != ASM_Class_tall then  ; bail out if we're not in a base cab
+	EXIT
+end if  ; cab.class != ASM_Class_Base
 
-tempTrash1<text> = 'this.BF.trashDrawerCode'
-tempTrash2<int> = {tempTrash1}
-_DWRCode<text> = '{tempTrash2}'
-_DWRCode<style> = 2
-_DWRCode<desc> = _DWRCode
+if this.DWR.trashSelector == NULL or this.DWR.trashSelector == 0 then
+
+	if trashUCSPREF == TRUE then
+		delete trashUCSPREF
+		delete PREF
+	end if
+	
+	if trashUCSPVO == TRUE then
+		delete trashUCSPVO
+		delete PVO
+	end if
+	
+	if trashUCSBTC == TRUE then
+		delete trashUCSBTC
+		delete BTC
+	end if 	
+
+	exit
+end if  
+
+PREF = 1
+trashUCSPREF<bool> = TRUE
+trashUCSPREF<style> = 2
+trashUCSPREF<desc> = trashUCSPREF
+
+PVO = this.DWR.DTR.DX/2  
+trashUCSPVO<bool> = TRUE
+trashUCSPVO<style> = 2
+trashUCSPVO<desc> = trashUCSPVO
+
+BTC = DY - 0.5625 - 9.75 ; opening height - bottom clearance - box height
+trashUCSBTC<bool> = TRUE
+trashUCSBTC<style> = 2
+trashUCSBTC<desc> = trashUCSBTC
