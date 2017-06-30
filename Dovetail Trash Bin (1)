@@ -1,7 +1,16 @@
 ;Provides interface for trashbin selection
 
-For Each BF part
-   
+For Each DWR part
+ 
+if this._dwr_AccSelector != NULL and this._dwr_AccSelector != -1 then
+	delete TrashSelector
+	delete minimumWidth
+	delete minimumDepth
+	delete minimumHeight
+	delete _dwr_code
+	exit
+end if
+  
 if this.trashSelector == NULL then
 	trashSelector<int> = <lst>'00 None=0|01 Single 35q=1|02 Single 35q Lat=2|03 DB 35q=3|04 DB 35q Lat=4|05 Single 50q=5|06 Single 50q Lat=6|07 DB 50q=7|08 DB 50q Lat=8'
 end if
@@ -9,31 +18,104 @@ end if
 	trashSelector<desc> = 'Trash bin'
    
 if this.trashSelector == 0 then
-	trashDrawerCode<text> = ' '
+	delete minimumWidth
+	delete minimumDepth
+	delete minimumHeight
+	_dwr_code<text> = ' '
 else
+	dim RED as new part
+		RED.dz = 0.25
+		RED.Z = 1
+		RED.EDX = -DX 
+
 	if this.trashSelector == 1 then
-		trashDrawerCode<text> = 'T-S35'
+		_dwr_code<text> = 'T-S35'
+		_dwr_AccessoryCost<dec> := 55
+		
+		;RED.libpart = 'Parts\UCS\labels\'
+		RED.desc = 'S35 Trash Label'
+		
+		minimumWidth<meas> := 12
+		minimumDepth<meas> := 15
+		minimumHeight<meas> := 20
+		
 	else
 		if this.trashSelector == 2 then
-			trashDrawerCode<text> = 'T-S35L'  
+			_dwr_code<text> = 'T-S35L'  
+			_dwr_AccessoryCost<dec> := 55
+			                                  
+			;RED.libpart = 'Parts\UCS\labels\'
+			RED.desc = 'S35L Trash Label'      
+			                                  
+			minimumWidth<meas> := 15 
+			minimumDepth<meas> := 12 
+			minimumHeight<meas> := 20
 		else                             
 			if this.trashSelector == 3 then      	
-		    	trashDrawerCode<text> = 'T-D35'
+		    	_dwr_code<text> = 'T-D35'
+		    	_dwr_AccessoryCost<dec> := 65
+		    	                                  
+		    	;RED.libpart = 'Parts\UCS\labels\'
+		    	RED.desc = 'D35 Trash Label'      
+		    	                                  
+		    	minimumWidth<meas> := 15 
+		    	minimumDepth<meas> := 21 
+		    	minimumHeight<meas> := 20
 		    else
 		    	if this.trashSelector == 4 then                                     
-		        	trashDrawerCode<text> = 'T-D35L'
+		        	_dwr_code<text> = 'T-D35L'
+		        	_dwr_AccessoryCost<dec> := 65 
+		        	                                  
+		        	;RED.libpart = 'Parts\UCS\labels\'
+		        	RED.desc = 'D35L Trash Label'      
+		        	                                  
+		        	minimumWidth<meas> := 21 
+		        	minimumDepth<meas> := 15 
+		        	minimumHeight<meas> := 20
 		        else                            
 		        	if this.trashSelector == 5 then       
-		            	trashDrawerCode<text> = 'T-S50'
+		            	_dwr_code<text> = 'T-S50'
+		            	_dwr_AccessoryCost<dec> := 65
+		            	                                  
+		            	;RED.libpart = 'Parts\UCS\labels\'
+		            	RED.desc = 'S50 Trash Label'      
+		            	                                  
+		            	minimumWidth<meas> := 15.5 
+		            	minimumDepth<meas> := 15 
+		            	minimumHeight<meas> := 25
 		            else                            
 		            	if this.trashSelector == 6 then       
-		                	trashDrawerCode<text> = 'T-S50L'
+		                	_dwr_code<text> = 'T-S50L'
+		                	_dwr_AccessoryCost<dec> := 65
+		                	                                  
+		                	;RED.libpart = 'Parts\UCS\labels\'
+		                	RED.desc = 'S50L Trash Label'      
+		                	                                  
+		                	minimumWidth<meas> := 15 
+		                	minimumDepth<meas> := 18 
+		                	minimumHeight<meas> := 25
 		                else
 		                	if this.trashSelector == 7 then                                   
-		                    	trashDrawerCode<text> = 'T-D50'
+		                    	_dwr_code<text> = 'T-D50'
+		                    	_dwr_AccessoryCost<dec> := 75
+		                    	                                  
+		                    	;RED.libpart = 'Parts\UCS\labels\'
+		                    	RED.desc = 'D50 Trash Label'      
+		                    	                                  
+		                    	minimumWidth<meas> := 15.5 
+		                    	minimumDepth<meas> := 21 
+		                    	minimumHeight<meas> := 25
 		                    else                            
 		                    	if this.trashSelector == 8 then       
-		                        	trashDrawerCode<text> = 'T-D50L'
+		                        	_dwr_code<text> = 'T-D50L'
+		                        	_dwr_AccessoryCost<dec> := 75
+		                        	                                  
+		                        	;RED.libpart = 'Parts\UCS\labels\'
+		                        	RED.desc = 'D50L Trash Label'      
+		                        	                                  
+		                        	minimumWidth<meas> := 23 
+		                        	minimumDepth<meas> := 18 
+		                        	minimumHeight<meas> := 25
 		                        end if                              
 		                    end if
 		                end if
@@ -41,5 +123,9 @@ else
 		        end if
 		    end if
 		end if
+	end if
+	if minimumWidth < :DX or minimumHeight < :DY or minimumDepth < 1 then
+		Dim RED2 as new part
+		;stop sign
 	end if
 end if
