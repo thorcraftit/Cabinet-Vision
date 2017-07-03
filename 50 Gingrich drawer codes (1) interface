@@ -36,7 +36,7 @@ if this._dwr_Accessories_v2 == NULL then
 
 end if
 
-if this.trashSelector != NULL and this.trashSelector != 0 then		
+if this.trashSelector > 0 or this.spiceSelector > 0 then			
 	delete _dwr_AccSelector
 	delete _dwr_accessoryLayout			
 	delete _dwr_Acc1
