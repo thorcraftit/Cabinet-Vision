@@ -1,0 +1,74 @@
+;Provides interface for spice rack selection
+
+For Each DWR part
+ 
+if this._dwr_AccSelector > 0 or this._dwr_AccSelector > 0 then
+	delete spiceSelector
+	delete minimumWidth
+	delete minimumDepth
+	delete minimumHeight
+	delete _dwr_code
+	exit
+end if 
+  
+if this.spiceSelector == NULL then
+	spiceSelector<int> = <lst>'00 None = 0|01 Base=1|02 Upper=2'
+end if
+	spiceSelector<style> = 1
+	spiceSelector<desc> = 'Spice rack'
+   
+if this.spiceSelector == 0 then
+	delete minimumWidth
+	delete minimumDepth
+	delete minimumHeight
+	_dwr_code<text> = ' '
+else
+	dim RED as new part
+		RED.dz = 0.25
+		RED.Z = 1
+		RED.EDX = -DX
+		RED.Y = :DY/2 - DX/2
+		RED.X = :DX/2 + DY/2
+		RED.AZ = 90
+		RED.libpart = 'Parts\UCS\labels\Pullout Spice Rack Label'
+		RED.desc = 'Pullout Spice Rack Label'
+		
+	if this.spiceSelector == 1 then
+		;base spice
+		_dwr_code<text> = 'PSR1-B'
+		_dwr_AccessoryCost<dec> := 85
+		minimumWidth<meas> := 3
+		minimumDepth<meas> := 9
+		minimumHeight<meas> := 0
+
+	else
+		;upper spice
+		_dwr_code<text> = 'PSR1-U'
+		_dwr_AccessoryCost<dec> := 65
+		minimumWidth<meas> := 3
+		minimumDepth<meas> := 9
+		minimumHeight<meas> := 0
+
+	end if
+	
+	; add $10 if over 9" wide
+	if :DX >= 9 then
+		_dwr_AccessoryCost<dec> += 10
+	end if
+
+	if :DX < minimumWidth or :DY < minimumHeight or (:.BF.pabsz - :.BBK.pabsz) < minimumDepth then
+		_dwr_code<text> = 'STOP'
+		_dwr_AccessoryCost<dec> := 10000
+		
+		Dim RED2 as new part
+			RED2.X = :DX/2 - DX/2
+			RED2.Y = :.RED.Y - DY - 1
+			RED2.dz = 0.25
+			RED2.Z = 2
+			RED2.EDX = -DX
+			RED2.libpart = 'Parts\UCS\labels\Stop Sign Label'
+		    RED2.desc = 'Stop Sign Label'
+			 
+		;stop sign
+	end if
+end if
