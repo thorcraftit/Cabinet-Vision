@@ -2,7 +2,7 @@
 
 For Each DWR part
  
-if this._dwr_AccSelector != NULL and this._dwr_AccSelector != -1 then
+if this._dwr_AccSelector >0 or this.spiceSelector > 0 then
 	delete TrashSelector
 	delete minimumWidth
 	delete minimumDepth
