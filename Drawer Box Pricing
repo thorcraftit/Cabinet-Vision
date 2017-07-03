@@ -34,47 +34,53 @@ else
 	end if
 end if	
 
-if this.BF.CONSTID == 23 OR this.BF.CONSTID == 25 then		; Gingrich drawers with Blum notching
+if this.BF.CONSTID == 23 OR this.BF.CONSTID == 25 then		; Dovetail drawers with Blum notching
 		b_MachiningCost<dec> = 10				;cost per box for notching and finishing. Never discounted.
 		b_singleDivSetup<dec> = 15      		; setup cost for single divider. Never discounted.
 		b_multipleDivSetup<dec> = 25			; setup cost for multiple dividers. Never discounted.
 		b_SetupCost<dec> = 0					; miscellaneous setup cost. Never discounted.
 else
-	if this.BF.CONSTID == 29 then 				; Gingrich drawers with NO notching	
+	if this.BF.CONSTID == 29 then 				; Dovetaill drawers with NO notching	
 		b_MachiningCost<dec> = 8				;cost per box for notching and finishing. Never discounted.	
 		b_singleDivSetup<dec> = 15      		; setup cost for single divider. Never discounted.
 		b_multipleDivSetup<dec> = 25			; setup cost for multiple dividers. Never discounted.
 		b_SetupCost<dec> = 0					; miscellaneous setup cost. Never discounted.
 	else
-		if this.BF.CONSTID == 36 then 				; Gingrich corner drawers with  notching	
-			b_MachiningCost<dec> = 8				;cost per box for notching and finishing. Never discounted.	
-			b_singleDivSetup<dec> = 15      		; setup cost for single divider. Never discounted.
+		if this.BF.CONSTID == 36 then 				; Dovetail corner drawers with  notching	
+			b_MachiningCost<dec> = 10				;cost per box for notching and finishing. Never discounted.	
+			b_singleDivSetup<dec> = 10      		; setup cost for single divider. Never discounted.
 			b_multipleDivSetup<dec> = 25			; setup cost for multiple dividers. Never discounted.
-			
 			; corner drawer setup cost
-			b_SetupCost<dec> = 70					; miscellaneous setup cost. Never discounted.
+			b_SetupCost<dec> = 44					; miscellaneous setup cost. Never discounted.
 		end if	
 	end if
 end if		
-
-	
 
 if this.b_AccessoryCost == NULL then
 	b_AccessoryCost<dec> = 0
 end if	
     
-    
-    
 ;If this.BF.constID == 23 OR this.BF.constID == 25 Then
-
-	b_AreaSides<dec> := 2*(boxw * boxh)/144 + 2*(boxd * boxh)/144
-	b_AreaBottom<dec> := boxw * boxd / 144              
-	
-	If boxH <= b_sizeCutoff then ;b_sizeCutoff then
-		b_BoxSidesCost<dec> := b_AreaSides * b_CutoffAndUnderCost
+    
+    if this.DWR.spiceSelector > 0 then    	
+		b_AreaSides<dec> := 2*(boxw * boxh)/144 + 2*(boxd * boxw)/144
+		b_AreaBottom<dec> := 0 ; no bottom in pullout spice racks
+		If boxw <= b_sizeCutoff then ;b_sizeCutoff then
+			b_BoxSidesCost<dec> := b_AreaSides * b_CutoffAndUnderCost
+		else
+			b_BoxSidesCost<dec> := b_AreaSides * b_OverCutoffCost
+		end if
 	else
-		b_BoxSidesCost<dec> := b_AreaSides * b_OverCutoffCost
-	end if    
+		b_AreaSides<dec> := 2*(boxw * boxh)/144 + 2*(boxd * boxh)/144
+		b_AreaBottom<dec> := boxw * boxd / 144              
+		If boxH <= b_sizeCutoff then ;b_sizeCutoff then
+			b_BoxSidesCost<dec> := b_AreaSides * b_CutoffAndUnderCost
+		else
+			b_BoxSidesCost<dec> := b_AreaSides * b_OverCutoffCost
+		end if
+	end if
+	
+    
 	
 	b_BoxBottomCost<dec> := b_AreaBottom * b_BottomCost 
 	b_materialCost<dec> := (b_BoxBottomCost + b_BoxSidesCost) * (1 - b_GingrichDiscount)       
@@ -82,9 +88,6 @@ end if
 	if this.DWR._dwr_AccessoryCost != NULL then
 		b_AccessoryCost<dec> := this.DWR._dwr_AccessoryCost  
 	end if  
-	
-	
-	
 	
 	;search for partitions and dividers here
 	b_DividerCount<int> = 0
@@ -106,7 +109,6 @@ end if
 	
 	delete temp_loop  
 	           
-	           
 	if b_dividerCount > 0 then
 		if b_dividerCount >= 2 then 
 			b_dividerTotalCost<dec> += b_multipleDivSetup
@@ -117,6 +119,7 @@ end if
 		
 	PRICE<dec> := b_MachiningCost + b_SetupCost + b_materialCost + b_AccessoryCost + b_dividerTotalCost
 	;only discount materials. machine cost is never discounted.
+;end if
 
 if debug == TRUE then                              
 	dim DRAWER as new part                  
@@ -128,4 +131,9 @@ if debug == TRUE then
 		DRAWER1.owner = cab
 		DRAWER1.name = 'Divider cost = ${b_dividerTotalCost}' 
 		DRAWER1.visible = FALSE
+		
+	dim DRAWER2 as new part                  
+		DRAWER2.owner = cab
+		DRAWER2.name = 'Accessory cost = ${b_AccessoryCost}' 
+		DRAWER2.visible = FALSE
 end if
