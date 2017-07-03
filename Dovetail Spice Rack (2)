@@ -14,11 +14,7 @@ if this.DWR.spiceSelector == NULL or this.DWR.spiceSelector == 0 then
 	end if 	
 
 	exit
-end if
-
-boxh := DX
-boxw := DY
- 
+end if 
 
 if cab.class == ASM_CLASS_BASE then
 	; use this math instead of PREF=1. setting PREF fails when PQ > 1 (pull quantity)
