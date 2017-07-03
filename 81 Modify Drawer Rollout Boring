@@ -1,57 +1,82 @@
-;Selectively adds _NORM value to DG boring
+;Modifies drawer and rollout guid boring
 
-;For Each DG|GFVBORE|GMVBORE|GRVBORE|GBKVBORE part
 For Each DG|G?VBORE|G??VBORE|GVBORE? part        
 
 if cab.class = ASM_CLASS_CLOSET then
 	exit
 end if	
  
-if name == 'DG' then 
-
+if name == 'DG' then          
+	; add parameter so we can bore into either a partition or an end panel
 	if this.PTBoring == NULL then
-	
 		PTBoring<bool> = FALSE
+	end if 								; this.PTBoring == NULL           
 		PTBoring<style> = 1
 		PTBoring<desc> = '81 Bore Partition?'
+
+	;bottom front linebore			
+	dim BFVBORE as new Mlinebore
+		BFVBORE.name = 'Bottom Front Linebore'
+		BFVBORE.DX = 0.197
+		BFVBORE.DY = 0.197
+		BFVBORE.DZ = imp(13)
+        BFVBORE.Y = imp(67)
+        BFVBORE.Z = :DZ - imp(12) ; 12mm in from inside of faceframe
+		           
+		if AZ == 90 then
+			;left guide
+			BFVBORE.AY = 0
+			BFVBORE.X = imp(-24.588)
+		else 
+			;right guide
+			BFVBORE.AY = 0
+			BFVBORE.X = :DX + imp(24.588)
+		end if 
+
+	;bottom back linebore	
+	dim BBVBORE as new Mlinebore 
+		BBVBORE.name = 'Bottom Back Linebore'
+		BBVBORE.DX = 0.197
+		BBVBORE.DY = 0.197
+		BBVBORE.DZ = imp(13)
+        BBVBORE.Y = imp(448)
+        BBVBORE.Z = :DZ - imp(19) ; 19mm in from inside of faceframe
+		           
+		if AZ == 90 then
+			;left guide
+			BBVBORE.AY = 0
+			BBVBORE.X = imp(-24.588)
+		else 
+			;right guide
+			BBVBORE.AY = 0
+			BFVBORE.X = :DX + imp(24.588)
+		end if
 		
-	end if 								; this.PTBoring == NULL           
-	
 else	
 
-	if Stype == 5 then   				;Disable all boring on rollouts
-	
+	if Stype == 5 then   				
+		;Disable all boring on rollouts
 		Qty = 0 
-	
 	Else     
-	
-		DX = 0.197 						; Set diameter to 0.197"
+	    ;drawer guides
+	    ;force size to 0.197" (5mm) and tool 12
+		DX = 0.197
 		DY = 0.197
 	    TOOLID<int> = 12						; Set tool to 0.197 Bradpoint
+	    
+	    ;allow boring from one assembly into another
 	    _MATCH = 1	;bore outside of current assembly into next part. Useful for corner drawer cabinets that have the drawer boxes as sub-assemblies.
 	    
-		If Name == 'GBKVBORE' then		;Disable rear boring on drawers
-		
-			If Stype == 2 then
-			                  
-				 Qty = 0
-				 
-			End If
-			
+		If Name == 'GBKVBORE' and Stype == 2 then		;Disable rear boring on drawers
+			Qty = 0
 		End If
 		
 		if :PTBoring == TRUE then
-		
+			; bore into farthest part within 13mm
 			_NORM = imp (13) 
-			
-		end if	
-		
-		if :PTBoring != TRUE then
-		
-			_NORM = imp(25)	         	; bore holes even if end panel is up to 25mm away
-			
-		end if 							; :PTBoring != TRUE	
-		
-	End If								; stype == 5          
-	
-end if									; name == 'DG'
+		else	                        
+			; bore into farthest part within 25mm
+			_NORM = imp(25)
+		end if
+	End If
+end if
