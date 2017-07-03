@@ -1,0 +1,57 @@
+;Selectively adds _NORM value to DG boring
+
+;For Each DG|GFVBORE|GMVBORE|GRVBORE|GBKVBORE part
+For Each DG|G?VBORE|G??VBORE|GVBORE? part        
+
+if cab.class = ASM_CLASS_CLOSET then
+	exit
+end if	
+ 
+if name == 'DG' then 
+
+	if this.PTBoring == NULL then
+	
+		PTBoring<bool> = FALSE
+		PTBoring<style> = 1
+		PTBoring<desc> = '81 Bore Partition?'
+		
+	end if 								; this.PTBoring == NULL           
+	
+else	
+
+	if Stype == 5 then   				;Disable all boring on rollouts
+	
+		Qty = 0 
+	
+	Else     
+	
+		DX = 0.197 						; Set diameter to 0.197"
+		DY = 0.197
+	    TOOLID<int> = 12						; Set tool to 0.197 Bradpoint
+	    _MATCH = 1	;bore outside of current assembly into next part. Useful for corner drawer cabinets that have the drawer boxes as sub-assemblies.
+	    
+		If Name == 'GBKVBORE' then		;Disable rear boring on drawers
+		
+			If Stype == 2 then
+			                  
+				 Qty = 0
+				 
+			End If
+			
+		End If
+		
+		if :PTBoring == TRUE then
+		
+			_NORM = imp (13) 
+			
+		end if	
+		
+		if :PTBoring != TRUE then
+		
+			_NORM = imp(25)	         	; bore holes even if end panel is up to 25mm away
+			
+		end if 							; :PTBoring != TRUE	
+		
+	End If								; stype == 5          
+	
+end if									; name == 'DG'
