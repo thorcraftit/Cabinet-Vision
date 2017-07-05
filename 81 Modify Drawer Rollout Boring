@@ -4,54 +4,83 @@ For Each DG|G?VBORE|G??VBORE|GVBORE? part
 
 if cab.class = ASM_CLASS_CLOSET then
 	exit
-end if	
+end if
  
-if name == 'DG' then          
+if this.name == 'DG' then          
 	; add parameter so we can bore into either a partition or an end panel
 	if this.PTBoring == NULL then
 		PTBoring<bool> = FALSE
 	end if 								; this.PTBoring == NULL           
 		PTBoring<style> = 1
 		PTBoring<desc> = '81 Bore Partition?'
-
-	;bottom front linebore			
-	dim BFVBORE as new Mlinebore
-		BFVBORE.name = 'Bottom Front Linebore'
-		BFVBORE.DX = 0.197
-		BFVBORE.DY = 0.197
-		BFVBORE.DZ = imp(13)
-        BFVBORE.Y = imp(67)
-        BFVBORE.Z = :DZ - imp(12) ; 12mm in from inside of faceframe
-		           
-		if AZ == 90 then
-			;left guide
-			BFVBORE.AY = 0
-			BFVBORE.X = imp(-24.588)
-		else 
-			;right guide
-			BFVBORE.AY = 0
-			BFVBORE.X = :DX + imp(24.588)
-		end if 
-
-	;bottom back linebore	
-	dim BBVBORE as new Mlinebore 
-		BBVBORE.name = 'Bottom Back Linebore'
-		BBVBORE.DX = 0.197
-		BBVBORE.DY = 0.197
-		BBVBORE.DZ = imp(13)
-        BBVBORE.Y = imp(448)
-        BBVBORE.Z = :DZ - imp(19) ; 19mm in from inside of faceframe
-		           
-		if AZ == 90 then
-			;left guide
-			BBVBORE.AY = 0
-			BBVBORE.X = imp(-24.588)
-		else 
-			;right guide
-			BBVBORE.AY = 0
-			BFVBORE.X = :DX + imp(24.588)
+	
+	; add bottom boring to 15, 18, and 21 Blum slides
+	if _M:MATID == 727 OR _M:MATID == 719 OR _M:MATID == 675 OR _M:MATID == 709 then
+	 	;21" slides
+	 	frontHoleSpacing<meas> := imp(67)
+	 	rearHoleSpacing<meas> := imp(448)
+	else
+	 	if _M:MATID == 726 OR _M:MATID == 718 OR _M:MATID == 674 OR _M:MATID == 708 then	
+			;18" slides                       
+	        frontHoleSpacing<meas> := imp(67)
+	        rearHoleSpacing<meas> := imp(378) 
+		 else                                                                                                   
+	     	if _M:MATID == 732 OR _M:MATID == 717 OR _M:MATID == 673 OR _M:MATID == 707 then    
+	    		;15" slides                                                                                         
+	            frontHoleSpacing<meas> := imp(67)                                                                   
+	            rearHoleSpacing<meas> := imp(319)
+			else
+				frontHoleSpacing<meas> := 0
+				rearHoleSpacing<meas> := 0
+			end if
 		end if
-		
+	end if
+
+	if this.frontHoleSpacing != 0 and this.rearHoleSpacing != 0 then
+		;bottom front linebore			
+		dim BFVBORE as new MLINEBORE
+			BFVBORE.name = 'Bottom Front Linebore'
+			BFVBORE.DX = 0.197
+			BFVBORE.DY = 0.197
+			BFVBORE.DZ = 0.375 ;imp(13)
+	        BFVBORE.Y = :frontHoleSpacing
+	        BFVBORE.Z = :DZ - imp(12) ; 12mm in from inside of faceframe
+	        BFVBORE._MATCH = 1
+	        BFVBORE._NORM = 1
+	        BFVBORE.REPT = 1
+			           
+			if AZ == 90 then
+				;left guide 
+				;BFVBORE.X = imp(-24.588)
+				BFVBORE.X = 0
+			else 
+				;right guide                   
+				;BFVBORE.X = :DX + imp(24.588)
+				BFVBORE.X = :DX
+			end if 
+	
+		;bottom back linebore	
+		dim BBVBORE as new MLINEBORE 
+			BBVBORE.name = 'Bottom Back Linebore'
+			BBVBORE.DX = 0.197
+			BBVBORE.DY = 0.197
+			BBVBORE.DZ = 0.375 ;imp(13)
+	        BBVBORE.Y = :rearHoleSpacing
+	        BBVBORE.Z = :DZ - imp(19) ; 19mm in from inside of faceframe
+	        BBVBORE._MATCH = 1
+	        BBVBORE._NORM = 1
+	        BBVBORE.REPT = 1
+			           
+			if AZ == 90 then
+				;left guide
+				;BBVBORE.X = imp(-24.588)
+				BBVBORE.X = 0
+			else 
+				;right guide
+				;BBVBORE.X = :DX + imp(24.588)
+				BBVBORE.X = :DX
+			end if
+	end if
 else	
 
 	if Stype == 5 then   				
