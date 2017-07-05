@@ -13,6 +13,33 @@ if this.name == 'DG' then
 	end if 								; this.PTBoring == NULL           
 		PTBoring<style> = 1
 		PTBoring<desc> = '81 Bore Partition?'
+
+;|01 Base=1|02 Upper=2
+if :.DWR.spiceSelector == 1 then
+	; base pullout spice rack
+	if AZ == 90 then
+		;left guide 
+		Y = :.BBK@1.Y - 6 - :.BBK@1.DZ - DX - imp(2.4)
+		; (top of back) - 6" - (thickness of back) - (width of slide in CV) - 2.4mm  ; 2.4 is the distance between the bottom of the box bottom and top of the slide in CV
+	else 
+		;right guide
+		;right side stays in same position                   
+	end if
+else
+	if :.DWR.spiceSelector == 2 then
+		; base pullout spice rack
+		if AZ == 90 then
+			;left guide 
+			Y = :.BBK@1.Y - :.BBK@1.DZ - DX - imp(2.4)
+		else 
+			;right guide
+			;right side stays in same position                   
+		end if	
+	end if 
+end if
+		
+			
+			 
 	
 	; add bottom boring to 15, 18, and 21 Blum slides
 	if _M:MATID == 727 OR _M:MATID == 719 OR _M:MATID == 675 OR _M:MATID == 709 then
