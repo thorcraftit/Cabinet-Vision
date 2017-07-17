@@ -15,7 +15,7 @@ if this.spiceSelector == NULL then
 	spiceSelector<int> = <lst>'00 None = 0|01 Base=1|02 Upper=2'
 end if
 	spiceSelector<style> = 1
-	spiceSelector<desc> = 'Spice rack'
+	spiceSelector<desc> = '50 Spice rack'
    
 if this.spiceSelector == 0 then
 	delete minimumWidth
@@ -68,7 +68,9 @@ else
 			RED2.EDX = -DX
 			RED2.libpart = 'Parts\UCS\labels\Stop Sign Label'
 		    RED2.desc = 'Stop Sign Label'
-			 
+			RED2.owner = owner 
 		;stop sign
-	end if
+	end if              
+	
+	RED.owner = owner
 end if
