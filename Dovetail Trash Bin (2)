@@ -9,16 +9,27 @@ if this.DWR.trashSelector == NULL or this.DWR.trashSelector == 0 then
 
 	if trashUCSPVO == TRUE then
 		delete trashUCSPVO
-		delete PVO
+		delete PVO  
 	end if
 	
 	if trashUCSBTC == TRUE then
 		delete trashUCSBTC
-		delete BTC
-	end if 	
+		delete BTC       
+	end if
+	
+	if trashUCS_DP12 == TRUE then
+		delete trashUCS_DP12
+		delete _DP12
+	end if  	    
 
 	exit
-end if  
+end if 
+
+; set opening's drawer front style (_DP12) to cabinet's door style (_DP11)
+_DP12 = _DP11
+trashUCS_DP12<bool> = TRUE
+trashUCS_DP12<style> = 2
+trashUCS_DP12<desc> = trashUCS_DP12
 
 ; use this math instead of PREF=1. setting PREF fails when PQ > 1 (pull quantity)
 PVO = -this.DWR.DY/2 + this.DWR.DTR.DX/2  
