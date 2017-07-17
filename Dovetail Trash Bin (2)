@@ -1,9 +1,9 @@
 ; Copy the ordering code from the box front to the DWR_OPEN for reporting
 For Each DWR_OPEN opening
 
-if cab.class != ASM_Class_Base and cab.class != ASM_Class_tall then  ; bail out if we're not in a base cab
-	EXIT
-end if  ; cab.class != ASM_Class_Base
+;if cab.class != ASM_Class_Base and cab.class != ASM_Class_tall then  ; bail out if we're not in a base cab
+;	EXIT
+;end if  ; cab.class != ASM_Class_Base
 
 if this.DWR.trashSelector == NULL or this.DWR.trashSelector == 0 then
 
