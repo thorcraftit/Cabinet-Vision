@@ -1,7 +1,11 @@
 ;Provides interface for trashbin selection
 
 For Each DWR part
- 
+
+if cab.class != ASM_Class_Base and cab.class != ASM_Class_tall then  ; bail out if we're not in a base cab
+	EXIT
+end if  ; cab.class != ASM_Class_Base
+
 if this._dwr_AccSelector > 0 or this.spiceSelector > 0 then
 	delete TrashSelector
 	delete minimumWidth
