@@ -1,11 +1,20 @@
 ; Copy the ordering code from the box front to the DWR_OPEN for reporting
 For Each DWR_OPEN opening
 
-if this.DWR.spiceSelector == NULL or this.DWR.spiceSelector == 0 then
+;if cab.class != ASM_Class_Base and cab.class != ASM_Class_tall then  ; bail out if we're not in a base cab
+;	EXIT
+;end if  ; cab.class != ASM_Class_Base
 
-	if spiceUCSPVO == TRUE then
-		delete spiceUCSPVO
-		delete PVO
+if this.DWR.trashSelector == NULL or this.DWR.trashSelector == 0 then
+
+	if trashUCSPVO == TRUE then
+		delete trashUCSPVO
+		delete PVO  
+	end if
+	
+	if trashUCSBTC == TRUE then
+		delete trashUCSBTC
+		delete BTC       
 	end if
 	
 	if trashUCS_DP12 == TRUE then
@@ -22,20 +31,13 @@ trashUCS_DP12<bool> = TRUE
 trashUCS_DP12<style> = 2
 trashUCS_DP12<desc> = trashUCS_DP12
 
+; use this math instead of PREF=1. setting PREF fails when PQ > 1 (pull quantity)
+PVO = -this.DWR.DY/2 + this.DWR.DTR.DX/2  
+trashUCSPVO<bool> = TRUE
+trashUCSPVO<style> = 2
+trashUCSPVO<desc> = trashUCSPVO
 
-if cab.class == ASM_CLASS_BASE then
-	; if base cabinet, set handle to top of door
-	; use this math instead of PREF=1. setting PREF fails when PQ > 1 (pull quantity)
-	PVO = -this.DWR.DY/2 + this.DWR.DTR.DX/2  
-	spiceUCSPVO<bool> = TRUE
-	spiceUCSPVO<style> = 2
-	spiceUCSPVO<desc> = spiceUCSPVO
-else 
-	; not a base cabinet, set handle to bottom
-	if cab.class == ASM_CLASS_UPPER then
-		PVO = +this.DWR.DY/2 - this.DWR.DBR.DX/2  
-		spiceUCSPVO<bool> = TRUE
-		spiceUCSPVO<style> = 2
-		spiceUCSPVO<desc> = spiceUCSPVO
-	end if
-end if
+BTC = DY - 0.5625 - 9.75 ; opening height - bottom clearance - box height
+trashUCSBTC<bool> = TRUE
+trashUCSBTC<style> = 2
+trashUCSBTC<desc> = trashUCSBTC
