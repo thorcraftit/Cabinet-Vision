@@ -21,7 +21,7 @@ if this.trashSelector == NULL then
 	trashSelector<int> = <lst>'00 None=0|{selectorText1}|{selectorText2}'
 end if
 	trashSelector<style> = 1
-	trashSelector<desc> = 'Trash bin'
+	trashSelector<desc> = '50 Trash bin'
    
 if this.trashSelector == 0 then
 	delete minimumWidth
@@ -146,7 +146,11 @@ else
 			RED2.EDX = -DX
 			RED2.libpart = 'Parts\UCS\labels\Stop Sign Label'
 		    RED2.desc = 'Stop Sign Label'
+		    RED2.owner = owner
 			 
 		;stop sign
 	end if
+	
+	RED.owner = owner
+	
 end if
