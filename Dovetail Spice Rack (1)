@@ -1,15 +1,14 @@
 ;Provides interface for spice rack selection
 
 For Each DWR part
- 
-if this._dwr_AccSelector > 0 or this._dwr_AccSelector > 0 then
+
+if this._dwr_AccSelector > 0 or this.trashSelector > 0 then
 	delete spiceSelector
-	delete minimumWidth
-	delete minimumDepth
-	delete minimumHeight
-	delete _dwr_code
+	;don't delete _dwr_code since it is used by other accessory UCSs
+	;delete _dwr_code
 	exit
-end if 
+end if
+ 
   
 if this.spiceSelector == NULL then
 	spiceSelector<int> = <lst>'00 None = 0|01 Base=1|02 Upper=2'
