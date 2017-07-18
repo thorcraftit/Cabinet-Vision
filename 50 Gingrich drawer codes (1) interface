@@ -359,7 +359,10 @@ if _dwr_AccSelector == 1 then
 						end if
 					end if
 					
-				end if
+				end if 
+				
+				RED.owner = owner
+				
 			end if
 			i += 1
 		end while			
