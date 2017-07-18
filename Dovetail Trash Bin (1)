@@ -13,7 +13,8 @@ if this._dwr_AccSelector > 0 or this.spiceSelector > 0 then
 	delete minimumHeight
 	delete selectorText1
 	delete selectorText2
-	delete _dwr_code
+	;don't delete _dwr_code since it is used by other accessory UCSs
+	;delete _dwr_code
 	exit
 end if
    
