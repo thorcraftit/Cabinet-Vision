@@ -1,0 +1,107 @@
+;Modifies DG boring
+
+For Each DG part        
+
+if cab.class = ASM_CLASS_CLOSET then
+	exit
+end if
+        
+; add parameter so we can bore into either a partition or an end panel
+if this.PTBoring == NULL then
+	PTBoring<bool> = FALSE
+end if 								; this.PTBoring == NULL           
+	PTBoring<style> = 1
+	PTBoring<desc> = '81 Bore Partition?'
+
+
+;|01 Base=1|02 Upper=2
+if :.DWR.spiceSelector == 1 then
+	; base pullout spice rack
+	if AZ == 90 then
+		;left guide 
+		Y = :.BBK@1.Y - 6 - :.BBK@1.DZ - DX - imp(2.4)
+		; (top of back) - 6" - (thickness of back) - (width of slide in CV) - 2.4mm  ; 2.4 is the distance between the bottom of the box bottom and top of the slide in CV
+	else 
+		;right guide
+		;right side stays in same position                   
+	end if
+else
+	if :.DWR.spiceSelector == 2 then
+		; base pullout spice rack
+		if AZ == 90 then
+			;left guide 
+			Y = :.BBK@1.Y - :.BBK@1.DZ - DX - imp(2.4)
+		else 
+			;right guide
+			;right side stays in same position                   
+		end if	
+	end if 
+end if
+
+; add bottom boring to 15, 18, and 21 Blum slides
+if _M:MATID == 727 OR _M:MATID == 719 OR _M:MATID == 675 OR _M:MATID == 709 then
+ 	;21" slides
+ 	frontHoleSpacing<meas> := imp(67)
+ 	rearHoleSpacing<meas> := imp(448)
+else
+ 	if _M:MATID == 726 OR _M:MATID == 718 OR _M:MATID == 674 OR _M:MATID == 708 then	
+		;18" slides                       
+        frontHoleSpacing<meas> := imp(67)
+        rearHoleSpacing<meas> := imp(378) 
+	 else                                                                                                   
+     	if _M:MATID == 732 OR _M:MATID == 717 OR _M:MATID == 673 OR _M:MATID == 707 then    
+    		;15" slides                                                                                         
+            frontHoleSpacing<meas> := imp(67)                                                                   
+            rearHoleSpacing<meas> := imp(319)
+		else
+			frontHoleSpacing<meas> := 0
+			rearHoleSpacing<meas> := 0
+		end if
+	end if
+end if
+
+if this.frontHoleSpacing != 0 AND this.rearHoleSpacing != 0 then
+	;bottom front linebore			
+	dim BFVBORE as new MLINEBORE
+		BFVBORE.name = 'Bottom Front Linebore'
+		BFVBORE.DX = 0.197
+		BFVBORE.DY = 0.197
+		BFVBORE.DZ = 0.375 ;imp(13)
+        BFVBORE.Y = :frontHoleSpacing
+        BFVBORE.Z = :DZ - imp(12) ; 12mm in from inside of faceframe
+        BFVBORE._MATCH = 1
+        BFVBORE._NORM = 1
+        BFVBORE.REPT = 1
+		           
+		if AZ == 90 then
+			;left guide 
+			;BFVBORE.X = imp(-24.588)
+			BFVBORE.X = 0
+		else 
+			;right guide                   
+			;BFVBORE.X = :DX + imp(24.588)
+			BFVBORE.X = :DX
+		end if 
+
+	;bottom back linebore	
+	dim BBVBORE as new MLINEBORE 
+		BBVBORE.name = 'Bottom Back Linebore'
+		BBVBORE.DX = 0.197
+		BBVBORE.DY = 0.197
+		BBVBORE.DZ = 0.375 ;imp(13)
+        BBVBORE.Y = :rearHoleSpacing
+        BBVBORE.Z = :DZ - imp(19) ; 19mm in from inside of faceframe
+        BBVBORE._MATCH = 1
+        BBVBORE._NORM = 1
+        BBVBORE.REPT = 1
+		           
+		if AZ == 90 then
+			;left guide
+			;BBVBORE.X = imp(-24.588)
+			BBVBORE.X = 0
+		else 
+			;right guide
+			;BBVBORE.X = :DX + imp(24.588)
+			BBVBORE.X = :DX
+		end if
+end if
