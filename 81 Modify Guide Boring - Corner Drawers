@@ -1,0 +1,7 @@
+;Modifies boring on DG for corner drawer cabinets
+
+For Each G?VBORE|G??VBORE|GVBORE? part        
+
+if cab.name == '*Corner Drawer Box' or cab.name == '*Crnr Dwr Box' then
+	_MATCH = 1	
+end if
