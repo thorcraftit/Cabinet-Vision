@@ -1,0 +1,30 @@
+;Modifies boring on DG and ROG
+
+For Each G?VBORE|G??VBORE|GVBORE? part        
+
+if cab.class = ASM_CLASS_CLOSET then
+	exit
+end if
+
+if Stype == 5 then   				
+	;Disable all boring on rollouts
+	Qty = 0 
+Else     
+    ;drawer guides
+    ;force size to 0.197" (5mm) and tool 12
+	DX = 0.197
+	DY = 0.197
+    TOOLID<int> = 12						; Set tool to 0.197 Bradpoint
+
+	If Name == 'GBKVBORE' and Stype == 2 then		;Disable rear boring on drawers
+		Qty = 0
+	End If
+	
+	if :PTBoring == TRUE then
+		; bore into farthest part within 13mm
+		_NORM = imp (13) 
+	else	                        
+		; bore into farthest part within 25mm
+		_NORM = imp(25)
+	end if
+End If
