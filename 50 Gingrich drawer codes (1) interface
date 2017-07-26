@@ -92,7 +92,7 @@ if :STYPE != 2 then
 end if              
 
 ; bail out if not dovetail box   
-if :.BF.CONSTID != 23 AND :.BF.CONSTID != 25 then
+if :.BF.CONSTID != 23 AND :.BF.CONSTID != 25 AND :.BF.CONSTID != 36 then
 	delete _dwr_accessoryLayout			
 	delete _dwr_Acc1
 	delete _dwr_Acc2		
@@ -115,7 +115,35 @@ if :.BF.CONSTID != 23 AND :.BF.CONSTID != 25 then
 	delete _dwr_CanisterCount
 
 	exit
-end if	
+end if
+
+if :.BF.CONSTID = 36 then 
+
+	delete _dwr_accessoryLayout			
+	delete _dwr_Acc1
+	delete _dwr_Acc2		
+	delete _dwr_Acc3	
+	delete _dwr_Acc4
+	delete _dwr_AccessoryCost
+	
+	delete _dwr_Accessory_X
+	delete _dwr_Accessory_A
+	delete _dwr_Accessory_B
+	delete _dwr_Accessory_C
+	delete _dwr_Accessory_D
+	delete _dwr_Accessory_E
+	delete _dwr_Accessory_F
+	delete _dwr_Accessory_G
+	delete _dwr_Accessory_H
+	delete _dwr_Accessory_I
+	
+	delete _dwr_CanisterCount  
+	
+	_dwr_code<text> = 'CD'
+
+	exit
+end if
+	
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;  Initial user interface	    ;;;
