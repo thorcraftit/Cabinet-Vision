@@ -69,7 +69,7 @@ if this.frontHoleSpacing != 0 AND this.rearHoleSpacing != 0 then
 		BFVBORE.DZ = 0.375 ;imp(13)
         BFVBORE.Y = :frontHoleSpacing
         BFVBORE.Z = :DZ - imp(12) ; 12mm in from inside of faceframe
-        BFVBORE._MATCH = 1
+        ;BFVBORE._MATCH = 1
         BFVBORE._NORM = 1
         BFVBORE.REPT = 1
 		           
@@ -91,7 +91,7 @@ if this.frontHoleSpacing != 0 AND this.rearHoleSpacing != 0 then
 		BBVBORE.DZ = 0.375 ;imp(13)
         BBVBORE.Y = :rearHoleSpacing
         BBVBORE.Z = :DZ - imp(19) ; 19mm in from inside of faceframe
-        BBVBORE._MATCH = 1
+        ;BBVBORE._MATCH = 1
         BBVBORE._NORM = 1
         BBVBORE.REPT = 1
 		           
