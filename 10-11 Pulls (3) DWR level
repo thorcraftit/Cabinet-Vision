@@ -1,0 +1,27 @@
+; Don't use unless people complain.
+For Each DWR part
+
+if this._DWR_pulldSelector == NULL then
+	_DWR_pulldSelector<int> = <lst>'00 Match Cab=-1|Custom Cab=1'
+end if
+	_DWR_pulldSelector<style> = 1
+	_DWR_pulldSelector<desc> = '10 Dwr Pull'
+	
+if this._DWR_pulldSelector == -1 then    
+	_DWR_pulldType<int> := cab._c_pulldType
+	
+	_DWR_pulldString<text> = {cab._c_pulldString}
+	_DWR_pulldString<style> = 0
+else 
+	_DWR_pulldType<int> := 1
+	
+	if this._DWR_pulldString == NULL then
+		_DWR_pulldString<text> = 'CHANGE ME' ;{cab._c_pulldString}
+	end if	
+		_DWR_pulldString<style> = 1
+		_DWR_pulldString<desc> = '10 Dwr Pull'
+end if	
+
+_DWR_pulldStringNote<text> = {_DWR_pulldString}
+_DWR_pulldStringNote<style> = 2
+_DWR_pulldStringNote<desc> = '_DWR_pulldStringNote'
