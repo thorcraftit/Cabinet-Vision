@@ -20,7 +20,3 @@ else
 		_DOR_pullString<style> = 1
 		_DOR_pullString<desc> = '10 Door pull'
 end if	
-
-_DOR_pullStringNote<text> = {_DOR_pullString}
-_DOR_pullStringNote<style> = 2
-_DOR_pullStringNote<desc> = '_DOR_pullStringNote'
