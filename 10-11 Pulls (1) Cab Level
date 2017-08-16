@@ -1,0 +1,52 @@
+For Each cab assembly
+
+if cab.class != ASM_CLASS_BASE and cab.class != ASM_CLASS_TALL and cab.class != ASM_CLASS_UPPER and cab.class != ASM_CLASS_VANITY and cab.class != ASM_CLASS_CLOSET then
+	exit
+end if 
+                         
+if this._c_pullSelector == NULL then
+	_c_pullSelector<int> = <lst>'00 Match Room=-1|01 Custom Cab=1'
+	_c_pullSelector<style> = 1
+	_c_pullSelector<desc> = '10 Cab Door Pull'
+end if  ; this._c_pullSelector == NULL
+
+ 
+if _c_pullSelector == -1 then 	; cab door pull matches room
+	_c_pullType<int> = -1  
+	
+	_c_pullString<text> = {_r_pullString}
+	_c_pullString<style> = 0
+else        
+	_c_pullType<int> = 1
+	
+	if this._c_pullString == NULL then
+		_c_pullString<text> = 'CHANGE ME'
+	end if
+		_c_pullString<style> = 1
+		_c_pullString<desc> = '10 Cab Door Pull'
+
+end if         
+
+
+if this._c_pulldSelector == NULL then
+	_c_pulldSelector<int> = <lst>'00 Match Room=-1|01 Custom Cab=1'
+	_c_pulldSelector<style> = 1
+	_c_pulldSelector<desc> = '10 Cab Dwr Pull'
+end if  ; this._c_pulldSelector == NULL
+
+ 
+if _c_pulldSelector == -1 then 	; cab door pulld matches room
+	_c_pulldType<int> = -1  
+	
+	_c_pulldString<text> = {_r_pulldString}
+	_c_pulldString<style> = 0
+else        
+	_c_pulldType<int> = 1
+	
+	if this._c_pulldString == NULL then
+		_c_pulldString<text> = 'CHANGE ME'
+	end if
+		_c_pulldString<style> = 1
+		_c_pulldString<desc> = '10 Cab Dwr Pull'
+
+end if
