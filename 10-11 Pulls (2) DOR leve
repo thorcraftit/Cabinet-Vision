@@ -1,0 +1,26 @@
+For Each DOR part
+
+if this._DOR_pullSelector == NULL then
+	_DOR_pullSelector<int> = <lst>'00 Match Cab=-1|Custom Cab=1'
+end if
+	_DOR_pullSelector<style> = 1
+	_DOR_pullSelector<desc> = '10 Door Pull'
+	
+if this._DOR_pullSelector == -1 then    
+	_DOR_pullType<int> := cab._c_pullType
+	
+	_DOR_pullString<text> = {cab._c_pullString}
+	_DOR_pullString<style> = 0
+else 
+	_DOR_pullType<int> := 1
+	
+	if this._DOR_pullString == NULL then
+		_DOR_pullString<text> = 'CHANGE ME' ;{cab._c_pullString}
+	end if	
+		_DOR_pullString<style> = 1
+		_DOR_pullString<desc> = '10 Door pull'
+end if	
+
+_DOR_pullStringNote<text> = {_DOR_pullString}
+_DOR_pullStringNote<style> = 2
+_DOR_pullStringNote<desc> = '_DOR_pullStringNote'
