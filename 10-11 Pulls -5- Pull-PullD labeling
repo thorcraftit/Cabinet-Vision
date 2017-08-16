@@ -1,0 +1,21 @@
+For Each PULL|PULLD part
+
+if name == 'PULL' then
+    temp1<text> = ':.DOR._DOR_pullString'
+    temp2<int> = {temp1}
+	desc = '{temp2}' 
+
+	exit
+
+end if  ; name == 'PULL'
+
+
+if name == 'PULLD' then 
+    
+    temp1<text> = ':.DWR._DWR_pulldString'
+    temp2<int> = {temp1}
+	desc = '{temp2}'
+
+	exit
+	
+end if  ; name == 'PULLD    
