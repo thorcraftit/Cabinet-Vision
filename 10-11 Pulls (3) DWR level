@@ -20,8 +20,4 @@ else
 	end if	
 		_DWR_pulldString<style> = 1
 		_DWR_pulldString<desc> = '10 Dwr Pull'
-end if	
-
-_DWR_pulldStringNote<text> = {_DWR_pulldString}
-_DWR_pulldStringNote<style> = 2
-_DWR_pulldStringNote<desc> = '_DWR_pulldStringNote'
+end if
