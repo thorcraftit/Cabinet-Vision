@@ -1,0 +1,100 @@
+For Each dor_open opening
+
+if this.DOR._DOR_pullType == 1 then
+    if cab._c_showLabels == TRUE then
+        if HNG == 1 then		; left hinge
+			dim RED as new part
+				if this.PULL.PULL_HOLE.PID > 0 then 
+					;knob     
+					RED.X = PULL.X - PULL.DX/2 - RED.DX - 1
+					RED.Y = PULL.Y - RED.DY/2
+				else  ;tpullbore bpullbore
+					;handle  
+					if this.PULL.AZ != 180 then
+						; exception for left-hinged doors with the pull rotated
+						RED.X = PULL.X + PULL.DY/2 - RED.DX/2
+						RED.Y = PULL.Y - PULL.DX/2 - 1 - RED.DY
+					else						
+						RED.X = PULL.X - PULL.DX/2 - RED.DX - 1
+						RED.Y = PULL.Y - PULL.DY/2 - RED.DY/2
+					end if	
+				end if	
+				RED.Z = 1
+				RED.EDX = -DX
+				RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
+				RED.name = 'Custom Pull Label'
+			exit
+			
+		end if
+		
+		if HNG == 2 then		; right hinge
+			dim RED as new part
+				if this.PULL.PULL_HOLE.PID > 0 then 
+					;knob     
+					RED.X = PULL.X + PULL.DX/2 + 1
+					RED.Y = PULL.Y - RED.DY/2
+				else    
+					;handle  
+					if this.PULL.AZ != 0 then
+						; exception for right-hinged doors with the pull rotated
+						RED.X = PULL.X + PULL.DY/2 - RED.DX/2
+						RED.Y = PULL.Y - PULL.DX/2 - 1 - RED.DY
+					else						
+						RED.X = PULL.X + PULL.DX/2 + 1
+						RED.Y = PULL.Y + PULL.DY/2 - RED.DY/2
+					end if	
+				end if
+				RED.Z = 1
+				RED.EDX = -DX
+				RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
+				RED.name = 'Custom Pull Label'
+			exit
+			
+		end if
+		
+		if HNG == 3 then		; top hinge
+			dim RED as new part
+				if this.PULL.PULL_HOLE.PID > 0 then 
+					;knob     
+					RED.X = PULL.X - RED.DX/2
+					RED.Y = PULL.Y + PULL.DY/2 + 1
+				else    
+					;handle  
+					RED.X = PULL.X + PULL.DY/2 - RED.DX/2
+					RED.Y = PULL.Y + PULL.DX/2 + 1
+				end if	
+				
+				RED.Z = 1
+				RED.AZ = 0
+				RED.EDX = -DX
+				RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
+				RED.name = 'Custom Pull Label'
+			exit
+			
+		end if 
+		
+		if HNG == 4 then		; bottom hinge
+			dim RED as new part
+
+				if this.PULL.PULL_HOLE.PID > 0 then 
+					;knob     
+					RED.X = PULL.X - RED.DX/2
+					RED.Y = PULL.Y - PULL.DY/2 - 1 - RED.DY
+				else    
+					;handle  
+					RED.X = PULL.X + PULL.DY/2 - RED.DX/2
+					RED.Y = PULL.Y - PULL.DX/2 - 1 - RED.DY
+				end if
+				
+				RED.Z = 1
+				RED.AZ = 0
+				RED.EDX = -DX
+				RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
+				RED.name = 'Custom Pull Label'
+			exit
+			
+		end if
+		
+	end if			
+
+end if  ; :.DOR._DOR_pullSelector == -1
