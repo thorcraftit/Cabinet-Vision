@@ -1,0 +1,26 @@
+;Disable FININT per part
+;by Nathan McCorkle (nathan@thorcraft.net)
+;Thorcraft Custom Kitchens     
+;5/30/2013
+
+For Each TO|DE|BO|LU|RU|AS|FS|PT|NA|UB|S_DIV|FILLER Part 				;DIVIDER,    LF|RF
+ 
+if cab.class == ASM_CLASS_CLOSET then
+	exit
+end if 
+ 
+if this.partFININT == NULL then
+	partFININT<int> = '<lst>00 Match Parent=-1|01 No=1|02 Yes=2'
+
+	if this.FININT != NULL then
+		partFININT = this.FININT + 1
+	end if
+end if	
+	partFININT<style> = 1
+	partFININT<desc> = 'PartFININT?'
+
+if partFININT == -1 then
+	delete FININT
+else
+	FININT := this.partFININT - 1
+end if
