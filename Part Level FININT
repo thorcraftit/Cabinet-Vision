@@ -11,11 +11,18 @@ end if
  
 if this.partFININT == NULL then
 	partFININT<int> = '<lst>00 Match Parent=-1|01 No=1|02 Yes=2'
-
-	if this.FININT != NULL then
-		partFININT = this.FININT + 1
+    
+    if this.FININT != NULL then
+	  	if this.FININT == 0 then
+			partFININT = 1
+		else
+			if this.FININT == 1 then
+				partFININT = 2
+			end if
+		end if
 	end if
-end if	
+	
+end if
 	partFININT<style> = 1
 	partFININT<desc> = 'PartFININT?'
 
