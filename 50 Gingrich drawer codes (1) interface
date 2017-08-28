@@ -299,53 +299,51 @@ if _dwr_AccSelector == 1 then
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	if cab._c_showLabels == TRUE then
-		i<int> := 1 
-		while i <= 4 do		
-			if _dwr_Acc{i} != 'X' then
-				dim RED as new part
-	;				RED.X = -20
-					RED.dz = 0.25
-					RED.Z = 1
-					RED.EDX = -DX 
-;					RED.owner = DWR_OPEN				
-				
-				; pick a library part label based on the accessory code
-				if _dwr_Acc{i} ==  'A' then
-					RED.libpart = 'Parts\UCS\labels\SW Slider Label'
-					RED.desc = 'zSilverware Slider'
+
+;;;;;;;;top left accessory;;;;;;;;
+		if _dwr_Acc1 != 'X' then
+			dim RED as new part
+				RED.dz = 0.25
+				RED.Z = 1
+				RED.EDX = -DX 
+				RED.owner = DWR_OPEN				
+			
+			; pick a library part label based on the accessory code
+			if _dwr_Acc1 ==  'A' then
+				RED.libpart = 'Parts\UCS\labels\SW Slider Label'
+				RED.desc = 'zSilverware Slider'
+			else
+				if _dwr_Acc1 ==  'B' then
+					RED.libpart = 'Parts\UCS\labels\SW Dividers Label'
+					RED.desc = 'zSilverware Dividers'
 				else
-					if _dwr_Acc{i} ==  'B' then
-						RED.libpart = 'Parts\UCS\labels\SW Dividers Label'
-						RED.desc = 'zSilverware Dividers'
+					if _dwr_Acc1 ==  'C' then
+						RED.libpart = 'Parts\UCS\labels\Utnsl Slider Label'
+						RED.desc = 'zUtensil Slider'
 					else
-						if _dwr_Acc{i} ==  'C' then
-							RED.libpart = 'Parts\UCS\labels\Utnsl Slider Label'
+						if _dwr_Acc1 ==  'D' then
+							RED.libpart = 'Parts\UCS\labels\Utnsl Dividers Label'
 							RED.desc = 'zUtensil Slider'
 						else
-							if _dwr_Acc{i} ==  'D' then
-								RED.libpart = 'Parts\UCS\labels\Utnsl Dividers Label'
-								RED.desc = 'zUtensil Slider'
+							if _dwr_Acc1 ==  'E' then
+								RED.libpart = 'Parts\UCS\labels\Knife Block Slider Label'
+								RED.desc = 'zKnife Block Slider'
 							else
-								if _dwr_Acc{i} ==  'E' then
-									RED.libpart = 'Parts\UCS\labels\Knife Block Slider Label'
-									RED.desc = 'zKnife Block Slider'
+								if _dwr_Acc1 ==  'F' then
+									RED.libpart = 'Parts\UCS\labels\Knife Block Label'
+									RED.desc = 'zKnife Block'
 								else
-									if _dwr_Acc{i} ==  'F' then
-										RED.libpart = 'Parts\UCS\labels\Knife Block Label'
-										RED.desc = 'zKnife Block'
+									if _dwr_Acc1 ==  'G' then
+										RED.libpart = 'Parts\UCS\labels\Cutting Bd Slider Label'
+										RED.desc = 'Cutting Board Slider'
 									else
-										if _dwr_Acc{i} ==  'G' then
-											RED.libpart = 'Parts\UCS\labels\Cutting Bd Slider Label'
-											RED.desc = 'Cutting Board Slider'
+										if _dwr_Acc1 ==  'H' then
+											RED.libpart = 'Parts\UCS\labels\Spice Insert Label'
+											RED.desc = 'zSpice Insert'
 										else
-											if _dwr_Acc{i} ==  'H' then
-												RED.libpart = 'Parts\UCS\labels\Spice Insert Label'
-												RED.desc = 'zSpice Insert'
-											else
-												if _dwr_Acc{i} ==  'I' then
-													RED.libpart = 'Parts\UCS\labels\K-Cup Slider Label'
-													RED.desc = 'zK-Cup Slider'
-												end if
+											if _dwr_Acc1 ==  'I' then
+												RED.libpart = 'Parts\UCS\labels\K-Cup Slider Label'
+												RED.desc = 'zK-Cup Slider'
 											end if
 										end if
 									end if
@@ -354,47 +352,252 @@ if _dwr_AccSelector == 1 then
 						end if
 					end if
 				end if
+			end if
  
-				; set label Y value
-				if i == 1 or i == 3 then  ; values are top accessories
-					RED.Y = :DY*0.95 - DY
+			; set label Y value
+			RED.Y = :DY*0.95 - DY
+			
+			; set label X value
+			if _dwr_accessoryLayout == 'A' then  
+				; design is full width. Center labels
+				RED.X = :DX/2 - DX/2            
+			else
+				if _dwr_accessoryLayout == 'B' then
+					RED.X = :DX*0.48 - DX
 				else
-					RED.Y = :DY*2/5 - DY
+					if _dwr_accessoryLayout == 'C' then
+						RED.X = 0 
+					end if
 				end if
-					
-				; set label X value
-				if _dwr_accessoryLayout == 'A' then  
-					; design is full width. Center labels
-					RED.X = :DX/2 - DX/2            
+				
+			end if 
+
+		end if
+   	
+;;;;;;;;bottom left accessory;;;;;;;;
+		if _dwr_Acc2 != 'X' then
+			dim RED2 as new part
+				RED2.dz = 0.25
+				RED2.Z = 1
+				RED2.EDX = -DX 
+				RED2.owner = DWR_OPEN				
+			
+			; pick a library part label based on the accessory code
+			if _dwr_Acc2 ==  'A' then
+				RED2.libpart = 'Parts\UCS\labels\SW Slider Label'
+				RED2.desc = 'zSilverware Slider'
+			else
+				if _dwr_Acc2 ==  'B' then
+					RED2.libpart = 'Parts\UCS\labels\SW Dividers Label'
+					RED2.desc = 'zSilverware Dividers'
 				else
-					if _dwr_accessoryLayout == 'B' then
-						; labels come outward from the middle
-						if i == 1 or i == 2 then  	; left accessories
-							RED.X = :DX*0.48 - DX
-							;RED.X = :DX*0.25 - DX/2
-						else						; right accessories
-							RED.X = :DX*0.52
-							;RED.X = :DX*0.75 - DX/2
-						end if	
+					if _dwr_Acc2 ==  'C' then
+						RED2.libpart = 'Parts\UCS\labels\Utnsl Slider Label'
+						RED2.desc = 'zUtensil Slider'
 					else
-						if _dwr_accessoryLayout == 'C' then
-							; labels come inward from the edges of the drawer
-							if i == 1 or i == 2 then  	; left accessories
-								RED.X = 0 
-							else						; right accessories
-								RED.X = :DX - DX
-							end if						
+						if _dwr_Acc2 ==  'D' then
+							RED2.libpart = 'Parts\UCS\labels\Utnsl Dividers Label'
+							RED2.desc = 'zUtensil Slider'
+						else
+							if _dwr_Acc2 ==  'E' then
+								RED2.libpart = 'Parts\UCS\labels\Knife Block Slider Label'
+								RED2.desc = 'zKnife Block Slider'
+							else
+								if _dwr_Acc2 ==  'F' then
+									RED2.libpart = 'Parts\UCS\labels\Knife Block Label'
+									RED2.desc = 'zKnife Block'
+								else
+									if _dwr_Acc2 ==  'G' then
+										RED2.libpart = 'Parts\UCS\labels\Cutting Bd Slider Label'
+										RED2.desc = 'Cutting Board Slider'
+									else
+										if _dwr_Acc2 ==  'H' then
+											RED2.libpart = 'Parts\UCS\labels\Spice Insert Label'
+											RED2.desc = 'zSpice Insert'
+										else
+											if _dwr_Acc2 ==  'I' then
+												RED2.libpart = 'Parts\UCS\labels\K-Cup Slider Label'
+												RED2.desc = 'zK-Cup Slider'
+											end if
+										end if
+									end if
+								end if
+							end if
 						end if
 					end if
-					
-				end if 
-				
-				RED.owner = owner
-				
+				end if
 			end if
-			i += 1
-		end while			
-   	end if  ; cab._c_showLabels == TRUE then    
+
+			; set label Y value 
+			RED2.Y = :DY*2/5 - DY
+
+			; set label X value
+			if _dwr_accessoryLayout == 'A' then  
+				; design is full width. Center labels
+				RED2.X = :DX/2 - DX/2            
+			else
+				if _dwr_accessoryLayout == 'B' then
+					; labels come outward from the middle
+					RED2.X = :DX*0.48 - DX
+				else
+					if _dwr_accessoryLayout == 'C' then
+						; labels come inward from the edges of the drawer
+						RED2.X = 0 
+					end if
+				end if
+			end if 
+		end if
+		
+;;;;;;;;top right accessory;;;;;;;;
+		if _dwr_Acc3 != 'X' then
+			dim RED3 as new part
+				RED3.dz = 0.25
+				RED3.Z = 1
+				RED3.EDX = -DX 
+				RED3.owner = DWR_OPEN				
+			
+			; pick a library part label based on the accessory code
+			if _dwr_Acc3 ==  'A' then
+				RED3.libpart = 'Parts\UCS\labels\SW Slider Label'
+				RED3.desc = 'zSilverware Slider'
+			else
+				if _dwr_Acc3 ==  'B' then
+					RED3.libpart = 'Parts\UCS\labels\SW Dividers Label'
+					RED3.desc = 'zSilverware Dividers'
+				else
+					if _dwr_Acc3 ==  'C' then
+						RED3.libpart = 'Parts\UCS\labels\Utnsl Slider Label'
+						RED3.desc = 'zUtensil Slider'
+					else
+						if _dwr_Acc3 ==  'D' then
+							RED3.libpart = 'Parts\UCS\labels\Utnsl Dividers Label'
+							RED3.desc = 'zUtensil Slider'
+						else
+							if _dwr_Acc3 ==  'E' then
+								RED3.libpart = 'Parts\UCS\labels\Knife Block Slider Label'
+								RED3.desc = 'zKnife Block Slider'
+							else
+								if _dwr_Acc3 ==  'F' then
+									RED3.libpart = 'Parts\UCS\labels\Knife Block Label'
+									RED3.desc = 'zKnife Block'
+								else
+									if _dwr_Acc3 ==  'G' then
+										RED3.libpart = 'Parts\UCS\labels\Cutting Bd Slider Label'
+										RED3.desc = 'Cutting Board Slider'
+									else
+										if _dwr_Acc3 ==  'H' then
+											RED3.libpart = 'Parts\UCS\labels\Spice Insert Label'
+											RED3.desc = 'zSpice Insert'
+										else
+											if _dwr_Acc3 ==  'I' then
+												RED3.libpart = 'Parts\UCS\labels\K-Cup Slider Label'
+												RED3.desc = 'zK-Cup Slider'
+											end if
+										end if
+									end if
+								end if
+							end if
+						end if
+					end if
+				end if
+			end if
+ 
+			; set label Y value
+			RED3.Y = :DY*0.95 - DY
+
+			; set label X value
+			if _dwr_accessoryLayout == 'A' then  
+				; design is full width. Center labels
+				RED3.X = :DX/2 - DX/2            
+			else
+				if _dwr_accessoryLayout == 'B' then
+					; labels come outward from the middle
+					RED3.X = :DX*0.52
+				else
+					if _dwr_accessoryLayout == 'C' then
+						; labels come inward from the edges of the drawer
+						RED3.X = :DX - DX
+					end if
+				end if
+			end if 
+		end if   
+		
+;;;;;;;;bottom right accessory;;;;;;;;
+		if _dwr_Acc4 != 'X' then
+			dim RED4 as new part
+				RED4.dz = 0.25
+				RED4.Z = 1
+				RED4.EDX = -DX 
+				RED4.owner = DWR_OPEN				
+			
+			; pick a library part label based on the accessory code
+			if _dwr_Acc4 ==  'A' then
+				RED4.libpart = 'Parts\UCS\labels\SW Slider Label'
+				RED4.desc = 'zSilverware Slider'
+			else
+				if _dwr_Acc4 ==  'B' then
+					RED4.libpart = 'Parts\UCS\labels\SW Dividers Label'
+					RED4.desc = 'zSilverware Dividers'
+				else
+					if _dwr_Acc4 ==  'C' then
+						RED4.libpart = 'Parts\UCS\labels\Utnsl Slider Label'
+						RED4.desc = 'zUtensil Slider'
+					else
+						if _dwr_Acc4 ==  'D' then
+							RED4.libpart = 'Parts\UCS\labels\Utnsl Dividers Label'
+							RED4.desc = 'zUtensil Slider'
+						else
+							if _dwr_Acc4 ==  'E' then
+								RED4.libpart = 'Parts\UCS\labels\Knife Block Slider Label'
+								RED4.desc = 'zKnife Block Slider'
+							else
+								if _dwr_Acc4 ==  'F' then
+									RED4.libpart = 'Parts\UCS\labels\Knife Block Label'
+									RED4.desc = 'zKnife Block'
+								else
+									if _dwr_Acc4 ==  'G' then
+										RED4.libpart = 'Parts\UCS\labels\Cutting Bd Slider Label'
+										RED4.desc = 'Cutting Board Slider'
+									else
+										if _dwr_Acc4 ==  'H' then
+											RED4.libpart = 'Parts\UCS\labels\Spice Insert Label'
+											RED4.desc = 'zSpice Insert'
+										else
+											if _dwr_Acc4 ==  'I' then
+												RED4.libpart = 'Parts\UCS\labels\K-Cup Slider Label'
+												RED4.desc = 'zK-Cup Slider'
+											end if
+										end if
+									end if
+								end if
+							end if
+						end if
+					end if
+				end if
+			end if
+ 
+			; set label Y value
+			RED4.Y = :DY*2/5 - DY
+				
+			; set label X value
+			if _dwr_accessoryLayout == 'A' then  
+				; design is full width. Center labels
+				RED4.X = :DX/2 - DX/2            
+			else
+				if _dwr_accessoryLayout == 'B' then
+					; labels come outward from the middle
+					RED4.X = :DX*0.52
+				else
+					if _dwr_accessoryLayout == 'C' then
+						; labels come inward from the edges of the drawer
+						RED4.X = :DX - DX
+
+					end if
+				end if
+			end if 
+		end if
+
+   	end if  ; cab._c_showLabels == TRUE then
    	
    	if debug == 1 then    	
 		dim DRAWER as new part                                      
@@ -402,8 +605,7 @@ if _dwr_AccSelector == 1 then
 			DRAWER.name = 'Drawer Accessories = ${_dwr_AccessoryCost}'
 			DRAWER.visible = FALSE
 	end if
-   	   
-   	   
+
    	exit
    	
 else ; _dwr_AccSelector == 1
