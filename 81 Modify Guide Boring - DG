@@ -39,25 +39,43 @@ else
 end if
 
 ; add bottom boring to 15, 18, and 21 Blum slides
-if _M:MATID == 727 OR _M:MATID == 719 OR _M:MATID == 675 OR _M:MATID == 709 then
- 	;21" slides
+if _M:MATID == 675 OR _M:MATID == 709 then
+ 	;21" overlay slides
  	frontHoleSpacing<meas> := imp(67)
  	rearHoleSpacing<meas> := imp(448)
 else
- 	if _M:MATID == 726 OR _M:MATID == 718 OR _M:MATID == 674 OR _M:MATID == 708 then	
-		;18" slides                       
-        frontHoleSpacing<meas> := imp(67)
-        rearHoleSpacing<meas> := imp(378) 
-	 else                                                                                                   
-     	if _M:MATID == 732 OR _M:MATID == 717 OR _M:MATID == 673 OR _M:MATID == 707 then    
-    		;15" slides                                                                                         
-            frontHoleSpacing<meas> := imp(67)                                                                   
-            rearHoleSpacing<meas> := imp(319)
-		else
-			frontHoleSpacing<meas> := 0
-			rearHoleSpacing<meas> := 0
+	if _M:MATID == 727 OR _M:MATID == 719 then
+	 	;21" inset slides. Hole is 1/4" deeper because of the inset locking devices
+	 	frontHoleSpacing<meas> := imp(67) + 0.25
+	 	rearHoleSpacing<meas> := imp(448) + 0.25
+	else
+	 	if _M:MATID == 674 OR _M:MATID == 708 then	
+			;18" overlay slides                       
+	        frontHoleSpacing<meas> := imp(67)
+	        rearHoleSpacing<meas> := imp(378) 
+		 else  
+			 if _M:MATID == 726 OR _M:MATID == 718 then	
+				;18" inset slides. Hole is 1/4" deeper because of the inset locking devices                       
+		        frontHoleSpacing<meas> := imp(67) + 0.25
+		        rearHoleSpacing<meas> := imp(378) + 0.25 
+			 else                                                                                                 
+		     	if _M:MATID == 673 OR _M:MATID == 707 then    
+		    		;15" overlay slides                                                                                         
+		            frontHoleSpacing<meas> := imp(67)                                                                   
+		            rearHoleSpacing<meas> := imp(319)
+				else
+					if _M:MATID == 732 OR _M:MATID == 717 then    
+			    		;15" inset slides. Hole is 1/4" deeper because of the inset locking devices                       
+			            frontHoleSpacing<meas> := imp(67) + 0.25                                                                  
+			            rearHoleSpacing<meas> := imp(319) + 0.25
+					else
+						frontHoleSpacing<meas> := 0
+						rearHoleSpacing<meas> := 0
+					end if
+				end if
+			end if
 		end if
-	end if
+	end if	
 end if
 
 if this.frontHoleSpacing != 0 AND this.rearHoleSpacing != 0 then
