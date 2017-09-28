@@ -18,7 +18,7 @@ if this._dwr_AccSelector > 0 or this.spiceSelector > 0 then
 	exit
 end if
    
-selectorText1<text> = '01 Single 35q Lat (12Wx20Hx12D min)=1|02 Single 35q (15Wx20Hx12D min)=2|03 DB 35q (15Wx20Hx21D min)=3|04 DB 35q Lat (21Wx20Hx15D min)=4|05 Single 50q (15.5Wx25Hx15D min)=5'
+selectorText1<text> = '01 Single 35q Lat (12Wx20Hx15D min)=1|02 Single 35q (15Wx20Hx12D min)=2|03 DB 35q (15Wx20Hx21D min)=3|04 DB 35q Lat (21Wx20Hx15D min)=4|05 Single 50q (15.5Wx25Hx15D min)=5'
 selectorText2<text> = '06 Single 50q Lat (15Wx25Hx18D min)=6|07 DB 50q (15.5Wx25Hx21D min)=7|08 DB 50q Lat (23Wx25Hx18D min)=8'
 
 if this.trashSelector == NULL then
