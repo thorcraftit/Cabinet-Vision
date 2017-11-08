@@ -1,3 +1,5 @@
+new
+
 For Each DFP part
 ;	grooveInterval		spacing between each set of grooves
 ;	beaded				V-groove = 0, B-groove = 1
@@ -90,7 +92,8 @@ end if
 
   
   
-if this.createGrooves then
+if this.createGrooves then     
+
 	if :name = 'DWR' then
 		grooveQty<int> := trunc(DY / grooveInterval)
 		whileTest<meas> := DY
@@ -102,9 +105,7 @@ if this.createGrooves then
 		totalGrooveWidth<meas> := grooveQty * grooveInterval - grooveInterval
 		grooveLength<meas> := DX
 		grooveX<meas> := (DY - totalGrooveWidth)/2
-	end if
-	
-	if :name = 'DOR' then  	
+	else
 		grooveQty<int> := trunc(DX / grooveInterval)
 		whileTest<meas> := DX
 		if grooveQty % 2 = 0 then ; force an odd number of grooves
@@ -121,27 +122,31 @@ if this.createGrooves then
 		dim BLACK as new part
 			BLACK.dx := groovePartWidth
 			BLACK.dy := grooveLength  
-			BLACK.dz := groovePartThickness
-			if :name = 'DOR' then
-				BLACK.X  := grooveX - groovePartWidth/2 - beaded*beadwidth/2
-				BLACK.Y  := 0
-			else
+			BLACK.dz := groovePartThickness       
+			
+			if :name = 'DWR' then       
 				BLACK.X  := 0
 				BLACK.Y  := grooveX + groovePartWidth/2 - beaded*beadwidth/2
-			end if		
+			else
+				BLACK.X  := grooveX - groovePartWidth/2 - beaded*beadwidth/2
+				BLACK.Y  := 0
+			end if	
+	
 			BLACK.Z  := DZ - groovePartThickness  
 		if beaded = TRUE then
 			dim BLACK as new part
 				BLACK.dx := groovePartWidth
 				BLACK.dy := grooveLength  
-				BLACK.dz := groovePartThickness
-				if :name = 'DOR' then
-					BLACK.X  := grooveX - groovePartWidth/2 + beaded*beadwidth/2
-					BLACK.Y  := 0
-				else
+				BLACK.dz := groovePartThickness      
+
+				if :name = 'DWR' then  
 					BLACK.X  := 0
 					BLACK.Y  := grooveX + groovePartWidth/2 + beaded*beadwidth/2
+				else
+					BLACK.X  := grooveX - groovePartWidth/2 + beaded*beadwidth/2
+					BLACK.Y  := 0
 				end if	
+
 				BLACK.Z  := DZ - groovePartThickness  	  
 		end if		
 			
