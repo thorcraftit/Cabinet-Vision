@@ -1,0 +1,150 @@
+For Each DFP part
+;	grooveInterval		spacing between each set of grooves
+;	beaded				V-groove = 0, B-groove = 1
+;	beadwidth			space between each set of grooves (only has an effect if grooveType = 2)
+
+groovePartWidth<meas> := 0.01
+groovePartThickness<meas> := 0.01
+
+createGrooves<bool> = false
+                              
+;P4 VG15 doors                              
+if :DOORSTYLEID = 974 OR :DOORSTYLEID = 975 OR :DOORSTYLEID = 976 OR :DOORSTYLEID = 977 OR :DOORSTYLEID = 978 OR :DOORSTYLEID = 979 OR :DOORSTYLEID = 980 OR :DOORSTYLEID = 981 OR :DOORSTYLEID = 982 OR :DOORSTYLEID = 983 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 1.5	
+	beaded<bool> := 0	 		
+	beadwidth<meas> := 0		
+end if
+
+;more P4 VG15 doors                              
+if :DOORSTYLEID = 1073 OR :DOORSTYLEID = 1074 OR :DOORSTYLEID = 1075 OR :DOORSTYLEID = 1076 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 1.5	
+	beaded<bool> := 0	 		
+	beadwidth<meas> := 0		
+end if	
+
+;P4 VG3 doors                   
+if :DOORSTYLEID = 1025 OR :DOORSTYLEID = 1029 OR :DOORSTYLEID = 1033 OR :DOORSTYLEID = 1034 OR :DOORSTYLEID = 1035 OR :DOORSTYLEID = 1036 OR :DOORSTYLEID = 1037 OR :DOORSTYLEID = 1038 OR :DOORSTYLEID = 1039 OR :DOORSTYLEID = 1040 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 3	
+	beaded<bool> := 0	 		
+	beadwidth<meas> := 0		
+end if	
+
+;more P4 VG3 doors                   
+if :DOORSTYLEID = 1077 OR :DOORSTYLEID = 1078 OR :DOORSTYLEID = 1079 OR :DOORSTYLEID = 1080 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 3	
+	beaded<bool> := 0	 		
+	beadwidth<meas> := 0		
+end if	 
+
+;P4 VG4 doors                   
+if :DOORSTYLEID = 1041 OR :DOORSTYLEID = 1042 OR :DOORSTYLEID = 1043 OR :DOORSTYLEID = 1044 OR :DOORSTYLEID = 1045 OR :DOORSTYLEID = 1046 OR :DOORSTYLEID = 1047 OR :DOORSTYLEID = 1048 OR :DOORSTYLEID = 1049 OR :DOORSTYLEID = 1050 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 4	
+	beaded<bool> := 0	 		
+	beadwidth<meas> := 0		
+end if
+
+;more P4 VG4 doors                   
+if :DOORSTYLEID = 1081 OR :DOORSTYLEID = 1082 OR :DOORSTYLEID = 1083 OR :DOORSTYLEID = 1084 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 4	
+	beaded<bool> := 0	 		
+	beadwidth<meas> := 0		
+end if	      
+
+;P4 BG15 doors                  
+if :DOORSTYLEID = 1051 OR :DOORSTYLEID = 1052 OR :DOORSTYLEID = 1053 OR :DOORSTYLEID = 1054 OR :DOORSTYLEID = 1055 OR :DOORSTYLEID = 1056 OR :DOORSTYLEID = 1057 OR :DOORSTYLEID = 1058 OR :DOORSTYLEID = 1059 OR :DOORSTYLEID = 1060 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 1.5	
+	beaded<bool> := 1	 		
+	beadwidth<meas> := 0.3125	
+end if 
+
+;P4 BG15 doors                  
+if :DOORSTYLEID = 1085 OR :DOORSTYLEID = 1086 OR :DOORSTYLEID = 1087 OR :DOORSTYLEID = 1088 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 1.5	
+	beaded<bool> := 1	 		
+	beadwidth<meas> := 0.3125	
+end if 
+
+;P4 BG3 doors                   
+if :DOORSTYLEID = 1061 OR :DOORSTYLEID = 1062 OR :DOORSTYLEID = 1063 OR :DOORSTYLEID = 1064 OR :DOORSTYLEID = 1065 OR :DOORSTYLEID = 1066 OR :DOORSTYLEID = 1067 OR :DOORSTYLEID = 1068 OR :DOORSTYLEID = 1069 OR :DOORSTYLEID = 1070 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 3	
+	beaded<bool> := 1	 		
+	beadwidth<meas> := 0.3125	
+end if
+      
+;P4 BG3 doors                   
+if :DOORSTYLEID = 1089 OR :DOORSTYLEID = 1090 OR :DOORSTYLEID = 1091 OR :DOORSTYLEID = 1092 then
+	createGrooves<bool> = true
+	grooveInterval<meas> := 3	
+	beaded<bool> := 1	 		
+	beadwidth<meas> := 0.3125	
+end if
+
+  
+  
+if this.createGrooves then
+	if :name = 'DWR' then
+		grooveQty<int> := trunc(DY / grooveInterval)
+		whileTest<meas> := DY
+		if grooveQty % 2 = 0 then ; force an odd number of grooves
+			grooveQty += 1
+		end if
+		;force an even number of grooves
+		;grooveQty<int> := grooveQty - grooveQty % 2	
+		totalGrooveWidth<meas> := grooveQty * grooveInterval - grooveInterval
+		grooveLength<meas> := DX
+		grooveX<meas> := (DY - totalGrooveWidth)/2
+	end if
+	
+	if :name = 'DOR' then  	
+		grooveQty<int> := trunc(DX / grooveInterval)
+		whileTest<meas> := DX
+		if grooveQty % 2 = 0 then ; force an odd number of grooves
+			grooveQty += 1
+		end if
+		;force an even number of grooves
+		;grooveQty<int> := grooveQty - grooveQty % 2
+		totalGrooveWidth<meas> := grooveQty * grooveInterval - grooveInterval
+		grooveLength<meas> := DY
+		grooveX<meas> := (DX - totalGrooveWidth)/2
+	end if
+	
+	while grooveX < whileTest DO
+		dim BLACK as new part
+			BLACK.dx := groovePartWidth
+			BLACK.dy := grooveLength  
+			BLACK.dz := groovePartThickness
+			if :name = 'DOR' then
+				BLACK.X  := grooveX - groovePartWidth/2 - beaded*beadwidth/2
+				BLACK.Y  := 0
+			else
+				BLACK.X  := 0
+				BLACK.Y  := grooveX + groovePartWidth/2 - beaded*beadwidth/2
+			end if		
+			BLACK.Z  := DZ - groovePartThickness  
+		if beaded = TRUE then
+			dim BLACK as new part
+				BLACK.dx := groovePartWidth
+				BLACK.dy := grooveLength  
+				BLACK.dz := groovePartThickness
+				if :name = 'DOR' then
+					BLACK.X  := grooveX - groovePartWidth/2 + beaded*beadwidth/2
+					BLACK.Y  := 0
+				else
+					BLACK.X  := 0
+					BLACK.Y  := grooveX + groovePartWidth/2 + beaded*beadwidth/2
+				end if	
+				BLACK.Z  := DZ - groovePartThickness  	  
+		end if		
+			
+		grooveX += grooveInterval
+	END WHILE 
+end if
