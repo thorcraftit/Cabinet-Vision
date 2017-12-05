@@ -20,10 +20,21 @@ if this.DWR.trashSelector == NULL or this.DWR.trashSelector == 0 then
 	if trashUCS_DP12 == TRUE then
 		delete trashUCS_DP12
 		delete _DP12
-	end if  	    
+	end if  	                    
+	
+	if trashUCS_MS12 == TRUE then
+		delete trashUCS_MS12
+		delete _MS12
+	end if
 
 	exit
 end if 
+
+; set opening's drawer front material schedule (_MS12) to cabinet's door material schedule (_MS11)
+_MS12 = _MS11    
+trashUCS_MS12<bool> = TRUE
+trashUCS_MS12<style> = 2
+trashUCS_MS12<desc> = trashUCS_MS12	
 
 ; set opening's drawer front style (_DP12) to cabinet's door style (_DP11)
 _DP12 = _DP11
