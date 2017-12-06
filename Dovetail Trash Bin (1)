@@ -19,7 +19,7 @@ if this._dwr_AccSelector > 0 or this.spiceSelector > 0 then
 end if
    
 selectorText1<text> = '01 Single 35q Lat (12Wx20Hx15D min)=1|02 Single 35q (15Wx20Hx12D min)=2|03 DB 35q (15Wx20Hx21D min)=3|04 DB 35q Lat (21Wx20Hx15D min)=4|05 Single 50q (15.5Wx25Hx15D min)=5'
-selectorText2<text> = '06 Single 50q Lat (15Wx25Hx18D min)=6|07 DB 50q (15.5Wx25Hx21D min)=7|08 DB 50q Lat (23Wx25Hx18D min)=8'
+selectorText2<text> = '06 Single 50q Lat (15Wx25Hx18D min)=6|07 DB 50q (15.5Wx25Hx21D min)=7|08 DB 50q Lat (23Wx25Hx18D min)=8|09 Single Hamper Lat (18Wx20Hx21D min)=9| 10 Single Hamper (20Wx20Hx18D min)=10|11 DB  Hamper Lat (33Wx20Hx20D min)=11'
 
 if this.trashSelector == NULL then
 	;trashSelector<int> = <lst>'00 None=0|01 Single 35q (12Wx20Hx12D min)=1|02 Single 35q Lat (15Wx20Hx12D min)=2|03 DB 35q (15Wx20Hx21D min)=3|04 DB 35q Lat (21Wx20Hx15D min)=4|05 Single 50q (15.5Wx25Hx15D min)=5|06 Single 50q Lat (15Wx25Hx18D min)=6|07 DB 50q (15.5Wx25Hx21D min)=7|08 DB 50q Lat (23Wx25Hx18D min)=8'
@@ -126,7 +126,41 @@ else
 		                        	                                  
 		                        	minimumWidth<meas> := 23 
 		                        	minimumDepth<meas> := 18 
-		                        	minimumHeight<meas> := 25
+		                        	minimumHeight<meas> := 25 
+		                        else
+			                        if this.trashSelector == 9 then       
+			                        	_dwr_code<text> = 'HS'
+			                        	_dwr_AccessoryCost<dec> := 75
+			                        	RED.libpart = 'Parts\UCS\labels\Single Hamper Label'
+			                        	RED.desc = 'H-S Hamper Label'      
+			                        	                                  
+			                        	minimumWidth<meas> := 18
+			                        	minimumDepth<meas> := 21 
+			                        	minimumHeight<meas> := 20
+			                        else
+				                        if this.trashSelector == 10 then       
+				                        	_dwr_code<text> = 'HSL'
+				                        	_dwr_AccessoryCost<dec> := 75
+											RED.libpart = 'Parts\UCS\labels\Single Hamper Label'
+				                        	RED.desc = 'H-SL Hamper Label'      
+				                        	                                  
+				                        	minimumWidth<meas> := 20 
+				                        	minimumDepth<meas> := 18 
+				                        	minimumHeight<meas> := 20 
+				                        else
+					                        if this.trashSelector == 11 then       
+					                        	_dwr_code<text> = 'HD'
+					                        	_dwr_AccessoryCost<dec> := 110
+					                        	;      ;double hamper lat                                                          
+					                        	RED.libpart = 'Parts\UCS\labels\Double Hamper Label'
+					                        	RED.desc = 'H-D Hamper Label'      
+					                        	                                  
+					                        	minimumWidth<meas> := 33 
+					                        	minimumDepth<meas> := 21 
+					                        	minimumHeight<meas> := 20 
+					                        end if 
+				                        end if 
+			                        end if 
 		                        end if                              
 		                    end if
 		                end if
