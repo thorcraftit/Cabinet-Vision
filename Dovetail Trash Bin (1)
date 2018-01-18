@@ -46,8 +46,8 @@ else
 		RED.libpart = 'Parts\UCS\labels\S35L Trash Label'
 		RED.desc = 'S35L Trash Label'      
 		                                  
-		minimumWidth<meas> := 15 
-		minimumDepth<meas> := 12 
+		minimumWidth<meas> := 12 
+		minimumDepth<meas> := 15 
 		minimumHeight<meas> := 20
 	else
 		if this.trashSelector == 2 then
@@ -57,8 +57,8 @@ else
 			RED.libpart = 'Parts\UCS\labels\S35 Trash Label'
 			RED.desc = 'S35 Trash Label'
 			
-			minimumWidth<meas> := 12
-			minimumDepth<meas> := 15
+			minimumWidth<meas> := 15
+			minimumDepth<meas> := 12
 			minimumHeight<meas> := 20
 		else                             
 			if this.trashSelector == 3 then      	
