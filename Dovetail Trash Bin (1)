@@ -39,27 +39,26 @@ else
 		RED.Z = 1
 		RED.EDX = -DX 
 
-	if this.trashSelector == 1 then
-		_dwr_code<text> = 'T-S35'
+	if this.trashSelector == 1 then   
+		_dwr_code<text> = 'T-S35L'  
 		_dwr_AccessoryCost<dec> := 55
-		
-		RED.libpart = 'Parts\UCS\labels\S35 Trash Label'
-		RED.desc = 'S35 Trash Label'
-		
-		minimumWidth<meas> := 12
-		minimumDepth<meas> := 15
+		                                  
+		RED.libpart = 'Parts\UCS\labels\S35L Trash Label'
+		RED.desc = 'S35L Trash Label'      
+		                                  
+		minimumWidth<meas> := 15 
+		minimumDepth<meas> := 12 
 		minimumHeight<meas> := 20
-		
 	else
 		if this.trashSelector == 2 then
-			_dwr_code<text> = 'T-S35L'  
+	 		_dwr_code<text> = 'T-S35'
 			_dwr_AccessoryCost<dec> := 55
-			                                  
-			RED.libpart = 'Parts\UCS\labels\S35L Trash Label'
-			RED.desc = 'S35L Trash Label'      
-			                                  
-			minimumWidth<meas> := 15 
-			minimumDepth<meas> := 12 
+			
+			RED.libpart = 'Parts\UCS\labels\S35 Trash Label'
+			RED.desc = 'S35 Trash Label'
+			
+			minimumWidth<meas> := 12
+			minimumDepth<meas> := 15
 			minimumHeight<meas> := 20
 		else                             
 			if this.trashSelector == 3 then      	
