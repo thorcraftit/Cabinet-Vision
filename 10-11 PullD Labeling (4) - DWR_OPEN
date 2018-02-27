@@ -2,14 +2,14 @@ For Each DWR_OPEN opening
 
 if this.DWR._DWR_pulldType == 1 then
     if cab._c_showLabels == TRUE then
-    
-		dim RED as new part
-			RED.X = :DX/2 - RED.DX/2
-			RED.Y = PULLD.Y - RED.DY/2 - 1
-			RED.Z = 1
-			RED.EDX = -DX
-			RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
-			RED.name = 'Custom Pull Label'  
-	end if		
-
+     	if this.PULLD.PID > 0 then	
+			dim RED as new part
+				RED.X = :DX/2 - RED.DX/2
+				RED.Y = PULLD.Y - RED.DY/2 - 1
+				RED.Z = 1
+				RED.EDX = -DX
+				RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
+				RED.name = 'Custom Pull Label'  
+		end if		
+	end if
 end if  ; :.DWR._DWR_pullDSelector == -1
