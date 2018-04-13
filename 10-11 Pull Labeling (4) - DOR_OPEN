@@ -1,101 +1,63 @@
 For Each dor_open opening
+   
+LabelLength<dec> := 10.75  
+LabelHeight<dec> := 2.5
+
+DoorXCenterStart<dec> := this.DX/2 - this.LabelLength/2
+DoorXCenterEnd<dec> := this.DX/2 + this.LabelLength/2
+
+DoorYCenterStart<dec> := this.DY/2 - this.LabelHeight/2
+DoorYCenterEnd<dec> := this.DY/2 + this.LabelHeight/2
 
 if this.DOR._DOR_pullType == 1 then
     if cab._c_showLabels == TRUE then     
-    	if this.PULL.PID > 0 then
-	        if HNG == 1 then		; left hinge
-				dim RED as new part
-					if this.PULL.PULL_HOLE.PID > 0 then 
-						;knob     
-						RED.X = PULL.X - PULL.DX/2 - RED.DX - 1
-						RED.Y = PULL.Y - RED.DY/2
-					else  ;tpullbore bpullbore
-						;handle  
-						if this.PULL.AZ != 180 then
-							; exception for left-hinged doors with the pull rotated
+    	if this.PULL.PID > 0 then  
+        	dim RED as new part    
+        		RED.Z = 1
+				RED.EDX = -DX
+				RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
+				RED.name = 'Custom Pull Label'   
+
+    	    if DX > LabelLength then
+				if this.PULL.X < DoorXCenterStart then
+					RED.X = PULL.X + 0.5
+				else 
+					if this.PULL.X > DoorXCenterEnd then
+						RED.X = PULL.X - RED.DX - 0.5
+					else
+						RED.X = PULL.X + PULL.DY/2 - RED.DX/2
+					end if
+				end if 
+			else     
+				if this.PULL.AZ = 0 or this.PULL.AZ = 180 then
+					if this.PULL.X > DX/2 then
+						RED.X = PULL.X - RED.DX - 0.5
+					else
+						if this.PULL.X < DX/2 then
+							RED.X = PULL.X + 0.5
+						else
 							RED.X = PULL.X + PULL.DY/2 - RED.DX/2
-							RED.Y = PULL.Y - PULL.DX/2 - 1 - RED.DY
-						else						
-							RED.X = PULL.X - PULL.DX/2 - RED.DX - 1
-							RED.Y = PULL.Y - PULL.DY/2 - RED.DY/2
-						end if	
-					end if	
-					RED.Z = 1
-					RED.EDX = -DX
-					RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
-					RED.name = 'Custom Pull Label'
-				exit
-				
+						end if
+					end if
+				else
+					RED.X = PULL.X + PULL.DY/2 - RED.DX/2
+				end if				
+			end if  
+			
+			if this.PULL.AZ = 0 then
+			       RED.Y = PULL.Y + PULL.DY/2 - LabelHeight/2
+			else
+				if this.PULL.AZ = 180 then
+					RED.Y = PULL.Y - PULL.DY/2 - LabelHeight/2
+				else
+					if this.PULL.Y < DoorYCenterStart then
+						RED.Y = PULL.Y + 0.5
+					else
+						RED.Y = PULL.Y  - RED.DY - 0.5
+					end if
+				end if
 			end if
 			
-			if HNG == 2 then		; right hinge
-				dim RED as new part
-					if this.PULL.PULL_HOLE.PID > 0 then 
-						;knob     
-						RED.X = PULL.X + PULL.DX/2 + 1
-						RED.Y = PULL.Y - RED.DY/2
-					else    
-						;handle  
-						if this.PULL.AZ != 0 then
-							; exception for right-hinged doors with the pull rotated
-							RED.X = PULL.X + PULL.DY/2 - RED.DX/2
-							RED.Y = PULL.Y - PULL.DX/2 - 1 - RED.DY
-						else						
-							RED.X = PULL.X + PULL.DX/2 + 1
-							RED.Y = PULL.Y + PULL.DY/2 - RED.DY/2
-						end if	
-					end if
-					RED.Z = 1
-					RED.EDX = -DX
-					RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
-					RED.name = 'Custom Pull Label'
-				exit
-				
-			end if
-			
-			if HNG == 3 then		; top hinge
-				dim RED as new part
-					if this.PULL.PULL_HOLE.PID > 0 then 
-						;knob     
-						RED.X = PULL.X - RED.DX/2
-						RED.Y = PULL.Y + PULL.DY/2 + 1
-					else    
-						;handle  
-						RED.X = PULL.X + PULL.DY/2 - RED.DX/2
-						RED.Y = PULL.Y + PULL.DX/2 + 1
-					end if	
-					
-					RED.Z = 1
-					RED.AZ = 0
-					RED.EDX = -DX
-					RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
-					RED.name = 'Custom Pull Label'
-				exit
-				
-			end if 
-			
-			if HNG == 4 then		; bottom hinge
-				dim RED as new part
-	
-					if this.PULL.PULL_HOLE.PID > 0 then 
-						;knob     
-						RED.X = PULL.X - RED.DX/2
-						RED.Y = PULL.Y - PULL.DY/2 - 1 - RED.DY
-					else    
-						;handle  
-						RED.X = PULL.X + PULL.DY/2 - RED.DX/2
-						RED.Y = PULL.Y - PULL.DX/2 - 1 - RED.DY
-					end if
-					
-					RED.Z = 1
-					RED.AZ = 0
-					RED.EDX = -DX
-					RED.libpart = 'Parts\UCS\labels\Custom Pull Label'
-					RED.name = 'Custom Pull Label'
-				exit
-				
-			end if   
-		
 		end if
 		
 	end if			
