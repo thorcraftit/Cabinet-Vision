@@ -5,7 +5,7 @@
 
 For Each PT|FS|S_DIV Part 
 
-if cab.class == ASM_CLASS_CLOSET then
+if cab.class == ASM_CLASS_CLOSET or cab.CONSTID = 101 then
 	
 	exit
 end if
