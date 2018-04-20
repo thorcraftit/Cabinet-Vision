@@ -1,0 +1,32 @@
+;Removes banding on PT|FS parts
+;by Nathan McCorkle (nathan@thorcraft.net)
+;Thorcraft Custom Kitchens
+;10/9/2012
+
+For Each PT|FS|S_DIV Part 
+
+if cab.class == ASM_CLASS_CLOSET then
+	
+	exit
+end if
+
+IF this.FixBand = null then              
+
+	FixBand<Bool> = 1
+	FixBand<style> = 1
+	FixBand<desc> = 'Delete Banding?'
+		
+END IF
+
+If FixBand Then
+
+	Band = 0
+	
+End If	
+
+
+
+
+
+
+				
