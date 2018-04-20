@@ -1,0 +1,145 @@
+;Oversizes System Dados Width and Depth
+For Each *DADO Operation 
+
+if cab.constid == 98 or cab.constid == 96 or cab.constid == 94 or cab.constid == 92 then
+	delete Over_Width
+	delete Over_Depth
+	delete UB_dado_max_oversize
+	delete Align
+	
+	exit 
+end if	 
+
+
+if cab.no_oversize = TRUE then
+	delete Over_Width
+	delete Over_Depth
+	delete UB_dado_max_oversize
+	delete Align
+	
+	exit             
+end if	
+
+if name == 'JDADO' OR name == 'BT*DADO' then     				; bail out for dados we don't want to control
+	delete Over_Width
+	delete Over_Depth
+	delete UB_dado_max_oversize
+	delete Align
+	
+	exit
+end if  ; name == 'JDADO' then	
+
+if cab.class = ASM_CLASS_CLOSET then
+	delete Over_Width
+	delete Over_Depth
+	delete UB_dado_max_oversize
+	delete Align
+	
+	exit
+end if	
+;if :stype = 2 then
+;	exit
+;end if	
+
+public Over_Width<meas> = 0.03125  				; over_width
+public Over_Depth<meas> = 0.03125				; over_depth
+public UB_dado_max_oversize<meas> = 1			; UB oversize
+Align<int> = 0								;-1 = Flush Back, 0 = Centered, 1 = Flush Face
+
+if :name ='UB' then              			; rule for UB dados up to 1.75"    
+	if cab.SCBK == NULL then
+		backScribe<meas> := cab._CV:223
+	else                              
+		backScribe<meas> := cab.SCBK
+	end if
+	
+	; check for left end adjustments
+	if cab.ADJLED == NULL then
+		leftAdj<meas> := 0
+	else
+		leftAdj<meas> := cab.ADJLED
+	end if	
+	
+	; change left UB dado
+	if _FACEWP = 6 then	
+		if leftAdj + backScribe <= this.UB_dado_max_oversize then  
+			over_width<meas> := leftAdj + backScribe	
+		else
+			Over_Width<meas> := UB_dado_max_oversize
+		end if		                            
+	end if 
+	
+	; check for right end adjustments
+	if cab.ADJRED == NULL then
+		rightAdj<meas> := 0
+	else
+		rightAdj<meas> := cab.ADJRED
+	end if	
+	
+	; change right UB dado
+	if _FACEWP = 4 then	
+		if rightAdj + backScribe <= this.UB_dado_max_oversize then  
+			over_width<meas> := rightAdj + backScribe	
+		else
+			over_Width<meas> := UB_dado_max_oversize
+		end if		                            
+	end if          
+	
+	; change bottom UB dado (used on full bottom uppers)
+	if _FACEWP = 3 then	
+		over_width<meas> := backScribe	
+	end if
+	
+;old method below	
+;	if cab.SCBK == NULL then
+;		Over_Width<meas> := cab._CV:223     ; use assembly wizard standard if back scribe hasn't been set by user
+;	else
+;		if cab.SCBK <= this.UB_dado_max_oversize then	; otherwise make the dado up to 1" wider than the thickness of the UB
+;			over_width<meas> := cab.SCBK	
+;		else	
+;			Over_Width<meas> := UB_dado_max_oversize
+;		end if	
+;	end if
+		
+	Over_Depth<meas> := Over_Depth   ;0.03125
+	Align<int> := 1
+end if  ; :name ='UB' then	
+
+S_DZ := DZ + over_depth			; add over_depth to the slave operation
+DX := :DZ + over_width			; add over_width to the width of the master operation
+
+if X < Imp(.001) then
+	if align == 0 then
+		X -= over_width/2
+		exit
+	end if
+	
+	if align == -1 then
+		X -= over_width
+		exit
+	end if
+	
+	if align == 1 then
+		X := 0
+		exit
+	end if		
+		
+end if  ; X < 0 then 
+
+if X > 0 then    
+	if align == 0 then
+		X += over_width/2
+		exit
+	end if
+	
+	if align == -1 then
+		X = :DZ
+		exit
+	end if
+	
+	if align == 1 then
+		X := :DZ + over_width
+		exit
+	end if		
+		
+end if  ; X < 0 then
