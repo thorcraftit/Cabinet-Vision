@@ -1,7 +1,7 @@
 ;Oversizes System Dados Width and Depth
 For Each *DADO Operation 
 
-if cab.constid == 98 or cab.constid == 96 or cab.constid == 94 or cab.constid == 92 then
+if cab.constid == 98 or cab.constid == 96 or cab.constid == 94 or cab.constid == 92 OR cab.constid == 101 then
 	delete Over_Width
 	delete Over_Depth
 	delete UB_dado_max_oversize
