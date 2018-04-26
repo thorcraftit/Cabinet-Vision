@@ -43,7 +43,11 @@ trashUCS_DP12<style> = 2
 trashUCS_DP12<desc> = trashUCS_DP12
 
 ; use this math instead of PREF=1. setting PREF fails when PQ > 1 (pull quantity)
-PVO = -this.DWR.DY/2 + this.DWR.DTR.DX/2  
+if this.DWR.DTR.PID > 0 then
+	PVO = -this.DWR.DY/2 + this.DWR.DTR.DX/2  
+else
+	PVO = -this.DWR.DY/2 + 1.125
+end if
 trashUCSPVO<bool> = TRUE
 trashUCSPVO<style> = 2
 trashUCSPVO<desc> = trashUCSPVO
