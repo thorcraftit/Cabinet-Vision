@@ -1,0 +1,127 @@
+;Part-specific control of blind/qualified dados
+For Each PT|FS|S_DIV|TS|NA|*DADO part
+
+;copy this block and change the part name in the if statement to create a part-specific dado override
+;If there is no part-specific override, the part will use the defaults set at the bottom section of the UCSMOD.      
+
+if cab.constid != 101 then
+	exit
+end if  
+  
+if name = 'TS' then
+	bDefaultFrontBD<bool> := FALSE	    ;Front Blind Dado       
+	bDefaultRearBD<bool> := FALSE        ;Rear Blind Dado    
+	bDefaultQualify<bool> := TRUE        ;Qualify Dados      
+end if 
+
+if name = 'S_DIV' then
+	bDefaultFrontBD<bool> := TRUE	    ;Front Blind Dado       
+	bDefaultRearBD<bool> := FALSE        ;Rear Blind Dado    
+	bDefaultQualify<bool> := FALSE        ;Qualify Dados      
+end if 
+
+if name = 'NA' then
+	bDefaultFrontBD<bool> := FALSE	    ;Front Blind Dado       
+	bDefaultRearBD<bool> := FALSE        ;Rear Blind Dado    
+	bDefaultQualify<bool> := TRUE        ;Qualify Dados      
+end if
+
+if :name = 'UB' then
+	exit 
+	;don't fire on unfinished backs since their dados are controlled in another UCS
+end if   
+
+if name = '*DADO' then
+
+	if :bFrontBD != NULL and :bFrontBD = FALSE then  
+		if pabsax < 0 then    
+		
+			;top dados
+			delete TENONB
+			delete MORTB
+			delete S_TENONB
+			delete S_MORTB  
+		else 
+			;bottom dados
+			delete TENONT
+			delete MORTT
+			delete S_TENONT
+			delete S_MORTT   
+		end if
+		
+	end if
+	
+	if :bRearBD != NULL and :bRearBD = FALSE then
+		if pabsax < 0 then
+			;top dados
+			delete TENONT
+			delete MORTT
+			delete S_TENONT
+			delete S_MORTT 
+		else   
+			;bottom dados
+			delete TENONB
+			delete MORTB
+			delete S_TENONB
+			delete S_MORTB
+		end if
+		
+	end if
+	
+	if :bQualify != NULL and :bQualify = FALSE then
+		delete MORTL
+		delete TENONL
+		delete S_MORTL
+		delete S_TENONL 
+		
+		delete MORTR
+		delete TENONR
+		delete S_MORTR
+		delete S_TENONR
+		
+		DX := :DZ + cab._CV:601
+		S_DX := :DZ + cab._CV:601
+		X := :DZ + cab._CV:601
+
+	end if
+
+	exit
+
+else
+	;Front Blind Dado	
+	if this.bFrontBD = NULL then
+		if this.bDefaultFrontBD = NULL then
+			bFrontBD<bool> := TRUE<bool>
+		else
+			bFrontBD<bool> := this.bDefaultFrontBD<bool>
+		end if
+	end if
+		bFrontBD<desc> = '11 BD Front?'
+		bFrontBD<style> = 1
+
+	;Rear Blind Dado	
+	if this.bRearBD = NULL then
+		if this.bDefaultRearBD = NULL then
+			bRearBD<bool> := TRUE<bool>
+		else
+			bRearBD<bool> := this.bDefaultRearBD<bool>
+		end if
+	end if
+		bRearBD<desc> = '11 BD Rear?'
+		bRearBD<style> = 1
+	
+	;Dado qualifying
+	if this.bQualify = NULL then          
+		__test1 = true
+		if this.bDefaultQualify = NULL then
+		__test2 = true
+			bQualify<bool> := TRUE<bool>
+		else   
+		__test3 = true
+			bQualify<bool> := this.bDefaultQualify<bool>
+		end if
+	end if
+		bQualify<desc> = '11 Qualify?'   
+		bQualify<style> = 1
+
+end if
